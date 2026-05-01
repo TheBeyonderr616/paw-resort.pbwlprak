@@ -1,47 +1,122 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.app')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('title', 'Login - PawResort')
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+@push('styles')
+<style>
+    .auth-page {
+        min-height: calc(100vh - 60px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .auth-box {
+        width: 100%;
+        max-width: 380px;
+        text-align: center;
+    }
+    .auth-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--paw-teal);
+        margin-bottom: 4px;
+    }
+    .auth-brand {
+        font-family: 'Baloo 2', cursive;
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: var(--paw-brown);
+        line-height: 1;
+        margin-bottom: 4px;
+    }
+    .auth-tagline {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--paw-teal);
+        margin-bottom: 20px;
+    }
+    .auth-pet-img {
+        font-size: 90px;
+        display: block;
+        margin: 0 auto 10px;
+        animation: float 3s ease-in-out infinite;
+    }
+    .auth-form-box {
+        background: #ffffffcc;
+        border-radius: 24px;
+        padding: 28px 24px;
+        border: 2px solid var(--paw-border);
+        backdrop-filter: blur(8px);
+    }
+    .input-group-paw {
+        position: relative;
+        margin-bottom: 14px;
+    }
+    .input-group-paw .input-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #aaa;
+        font-size: 0.9rem;
+    }
+    .input-group-paw input {
+        padding-left: 42px !important;
+    }
+    .auth-link {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--paw-dark);
+        margin-top: 12px;
+    }
+    .auth-link a { color: var(--paw-brown); text-decoration: none; font-weight: 800; }
+    .auth-link a:hover { text-decoration: underline; }
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+</style>
+@endpush
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+@section('content')
+<div class="auth-page">
+    <div class="auth-box">
+        <div class="auth-title">Login to</div>
+        <div class="auth-brand">PawResort!</div>
+        <div class="auth-tagline">We take care of your Pets!</div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+        <span class="auth-pet-img">🐹</span>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
+        <div class="auth-form-box">
+            @if($errors->any())
+                <div class="alert paw-alert alert-danger mb-3">
+                    {{ $errors->first() }}
+                </div>
             @endif
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+
+                <div class="input-group-paw">
+                    <span class="input-icon"><i class="fa fa-at"></i></span>
+                    <input type="email" name="email" class="paw-input" placeholder="Email"
+                        value="{{ old('email') }}" required autofocus>
+                </div>
+
+                <div class="input-group-paw">
+                    <span class="input-icon"><i class="fa fa-lock"></i></span>
+                    <input type="password" name="password" class="paw-input" placeholder="Password" required>
+                </div>
+
+                <button type="submit" class="btn-paw btn w-100 mt-2">Login</button>
+            </form>
+
+            <p class="auth-link mt-3 mb-0">
+                Don't have account? click <a href="{{ route('register') }}">here</a>
+            </p>
         </div>
-    </form>
-</x-guest-layout>
+    </div>
+</div>
+@endsection

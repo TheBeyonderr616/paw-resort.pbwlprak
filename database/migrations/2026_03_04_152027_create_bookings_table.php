@@ -6,26 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('pet_id')->constrained();
-            $table->foreignId('package_id')->constrained();
-            $table->date('tgl_check_in');
-            $table->date('tgl_check_out');
-            $table->string('status')->default('pending');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('pet_name')->nullable();
+            $table->string('pet_type')->nullable();
+            $table->string('breed')->nullable();
+            $table->string('pet_photo')->nullable();
+            $table->date('reservation_date');
+            $table->enum('pawckage', ['daily', 'weekly', 'vip'])->default('daily');
+            $table->enum('status', ['pending', 'confirmed', 'declined'])->default('pending');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('bookings');
