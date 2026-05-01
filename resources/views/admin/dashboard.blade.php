@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard - PawResort')
+@section('title', 'Admin Dashboard - PawResort')
 
 @push('styles')
 <style>
     .dashboard-page { padding: 24px 16px; }
     .welcome-banner {
-        background: linear-gradient(135deg, var(--paw-brown), #e8953a);
+        background: linear-gradient(135deg, #5b8fa8, #e8953a); 
         border-radius: 20px;
         padding: 24px;
         color: #fff;
@@ -39,7 +39,7 @@
         background: #fff;
         border: 2.5px solid var(--paw-border);
         border-radius: 20px;
-        padding: 20px 16px;
+        padding: 24px 16px; 
         text-align: center;
         cursor: pointer;
         text-decoration: none;
@@ -47,23 +47,23 @@
         transition: all .25s;
     }
     .menu-tile:hover {
-        border-color: var(--paw-brown);
+        border-color: #a87b5b;
         transform: translateY(-3px);
         box-shadow: 0 8px 24px var(--paw-shadow);
         color: var(--paw-dark);
     }
-    .menu-tile .tile-emoji { font-size: 2.5rem; margin-bottom: 8px; display: block; }
+    .menu-tile .tile-emoji { font-size: 3rem; margin-bottom: 12px; display: block; }
     .menu-tile h4 {
         font-family: 'Baloo 2', cursive;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         font-weight: 700;
-        color: var(--paw-brown);
+        color: #a87b5b;
         margin: 0 0 4px;
     }
-    .menu-tile p { font-size: 0.75rem; color: #888; font-weight: 600; margin: 0; }
+    .menu-tile p { font-size: 0.85rem; color: #888; font-weight: 600; margin: 0; }
 
     @media(min-width: 600px) {
-        .menu-grid { grid-template-columns: repeat(4, 1fr); }
+        .menu-grid { grid-template-columns: repeat(2, 1fr); max-width: 600px; margin: 0 auto; }
     }
 </style>
 @endpush
@@ -72,57 +72,25 @@
 <div class="page-wrapper">
 <div class="dashboard-page">
 
-    <!-- Welcome Banner -->
     <div class="welcome-banner">
-        <span class="paw-deco">🐾</span>
+        <span class="paw-deco">👑</span>
         <h2>Hi, {{ Auth::user()->name }}! 👋</h2>
-        <p>Welcome back to PawResort!</p>
-        <p style="font-size:0.8rem; margin-top:6px; opacity:0.8;">We take care of your Pets!</p>
+        <p>Welcome to Admin Control Panel</p>
+        <p style="font-size:0.8rem; margin-top:6px; opacity:0.8;">Manage sanctuary units and transactions</p>
     </div>
 
-    <!-- Menu Grid -->
     <div class="menu-grid">
-        <a href="{{ route('user.booking') }}" class="menu-tile">
-            <span class="tile-emoji">🐰</span>
-            <h4>Booking</h4>
-            <p>Let's have fun!</p>
+        <a href="{{ route('admin.cage') }}" class="menu-tile">
+            <span class="tile-emoji">🏠</span>
+            <h4>Cage Monitor</h4>
+            <p>Manage sanctuary units!</p>
         </a>
-        <a href="{{ route('user.payment') }}" class="menu-tile">
+        
+        <a href="{{ route('admin.payment') }}" class="menu-tile">
             <span class="tile-emoji">💳</span>
-            <h4>Payment</h4>
-            <p>Comfort your pets</p>
+            <h4>Payment Validation</h4>
+            <p>Validate transactions!</p>
         </a>
-        <a href="{{ route('pawckage') }}" class="menu-tile">
-            <span class="tile-emoji">😺</span>
-            <h4>Pawckage</h4>
-            <p>Choose treatment</p>
-        </a>
-        <a href="{{ route('user.register-pet') }}" class="menu-tile">
-            <span class="tile-emoji">🐕</span>
-            <h4>Register Pet</h4>
-            <p>Add your pet</p>
-        </a>
-    </div>
-
-    <!-- Quick Info -->
-    <div class="paw-card">
-        <h6 class="paw-font fw-bold mb-3" style="color:var(--paw-brown);">🐾 Your Pets</h6>
-        @if(isset($pets) && count($pets) > 0)
-            @foreach($pets as $pet)
-            <div class="d-flex align-items-center gap-3 mb-2 p-2" style="background:var(--paw-cream); border-radius:12px;">
-                <span style="font-size:1.8rem;">{{ $pet->type === 'dog' ? '🐕' : ($pet->type === 'cat' ? '🐱' : '🐹') }}</span>
-                <div>
-                    <div style="font-weight:800; font-size:0.95rem;">{{ $pet->name }}</div>
-                    <div style="font-size:0.8rem; color:#888;">{{ $pet->breed }}</div>
-                </div>
-            </div>
-            @endforeach
-        @else
-            <div class="text-center py-3" style="opacity:0.6;">
-                <p style="margin:0; font-size:0.9rem;">No pets registered yet.</p>
-                <a href="{{ route('user.register-pet') }}" style="color:var(--paw-brown); font-weight:700; font-size:0.85rem;">+ Register your pet</a>
-            </div>
-        @endif
     </div>
 
 </div>

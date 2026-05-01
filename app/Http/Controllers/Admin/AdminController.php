@@ -9,18 +9,17 @@ use Illuminate\Support\Facades\Cache;
 
 class AdminController extends Controller
 {
-    // ── Admin Dashboard ────────────────────────────────────────────────────────
+    // ── Admin Dashboard 
 
     public function dashboard()
     {
         return view('admin.dashboard');
     }
 
-    // ── Cage Monitoring ────────────────────────────────────────────────────────
+    // ── Cage Monitoring
 
     public function cage()
     {
-        // Load cage states from cache or DB (50 cages, false = available)
         $cageStates = Cache::get('cage_states', array_fill(0, 50, false));
         return view('admin.cage', compact('cageStates'));
     }
@@ -34,7 +33,7 @@ class AdminController extends Controller
         return back()->with('success', 'Cage status saved! 🏠');
     }
 
-    // ── Payment Validation ─────────────────────────────────────────────────────
+    // ── Payment Validation
 
     public function payment()
     {
@@ -45,7 +44,6 @@ class AdminController extends Controller
         $confirmedCount = Booking::where('status', 'confirmed')->count();
         $totalCount     = Booking::count();
 
-        // Simple total amount calc based on pawckage
         $prices = ['daily' => 75, 'weekly' => 500, 'vip' => 100];
         $totalAmount = Booking::where('status', 'confirmed')->get()->sum(fn($b) => $prices[$b->pawckage] ?? 0) . 'k';
 
