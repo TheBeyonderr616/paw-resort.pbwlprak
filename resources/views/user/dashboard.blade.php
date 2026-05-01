@@ -104,7 +104,6 @@
         </a>
     </div>
 
-    <!-- Quick Info -->
     <div class="paw-card">
         <h6 class="paw-font fw-bold mb-3" style="color:var(--paw-brown);">🐾 Your Pets</h6>
         @if(isset($pets) && count($pets) > 0)

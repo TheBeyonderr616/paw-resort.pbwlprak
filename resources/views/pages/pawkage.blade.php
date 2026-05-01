@@ -68,7 +68,6 @@
         <div class="page-tagline">We take care of your Pets!</div>
     </div>
 
-    <!-- Daily -->
     <div class="pkg-card daily">
         <div class="pkg-header">Daily Pawckage - 75k</div>
         <div class="pkg-body">
@@ -90,7 +89,6 @@
         </div>
     </div>
 
-    <!-- Weekly -->
     <div class="pkg-card weekly">
         <div class="pkg-header">Weekly Pawckage - 500k</div>
         <div class="pkg-body">
@@ -112,7 +110,6 @@
         </div>
     </div>
 
-    <!-- VIP -->
     <div class="pkg-card vip">
         <div class="pkg-header">VIP Pawckage - 100k</div>
         <div class="pkg-body">
