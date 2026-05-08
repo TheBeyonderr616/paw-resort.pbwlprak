@@ -22,7 +22,6 @@
         margin-bottom: 24px;
     }
 
-    /* Pawckage selector */
     .pawckage-select-btn {
         display: flex;
         justify-content: space-between;
@@ -41,7 +40,6 @@
     .pawckage-select-btn:hover { border-color: var(--paw-brown); color: var(--paw-dark); }
     .pawckage-select-btn span { font-size: 0.9rem; }
 
-    /* Rabbit deco */
     .rabbit-deco {
         text-align: right;
         font-size: 70px;
@@ -49,7 +47,6 @@
         line-height: 1;
     }
 
-    /* Calendar */
     .cal-box {
         background: var(--paw-cream);
         border: 2.5px solid var(--paw-border);
@@ -111,7 +108,6 @@
     .cal-day.past { opacity: 0.35; cursor: not-allowed; }
     .cal-day.past:hover { background: none; color: var(--paw-dark); }
 
-    /* Selected date display */
     .date-display-row {
         display: flex;
         align-items: center;
@@ -143,7 +139,6 @@
     <div class="page-title">PawResort!</div>
     <div class="page-tagline">We take care of your Pets!</div>
 
-    <!-- Choose Pawckage -->
     <div style="font-weight:700; font-size:0.9rem; color:var(--paw-dark); margin-bottom:8px;">
         Choose your favourite Pawckage! :
     </div>
@@ -152,10 +147,8 @@
         <i class="fa fa-chevron-right" style="font-size:0.8rem;"></i>
     </a>
 
-    <!-- Rabbit deco -->
     <div class="rabbit-deco">🐰🐰</div>
 
-    <!-- Calendar -->
     <div style="font-weight:700; font-size:0.9rem; color:var(--paw-dark); margin-bottom:10px;">
         Choose reservation :
     </div>
@@ -167,7 +160,6 @@
         </div>
 
         <div class="cal-grid" id="calGrid">
-            <!-- Days of week headers -->
             <div class="cal-day-header">Sun</div>
             <div class="cal-day-header">Mon</div>
             <div class="cal-day-header">Tue</div>
@@ -176,17 +168,15 @@
             <div class="cal-day-header">Fri</div>
             <div class="cal-day-header">Sat</div>
         </div>
-        <!-- Calendar days rendered by JS -->
+
         <div class="cal-grid" id="calDays"></div>
     </div>
 
-    <!-- Selected Date -->
     <div class="date-display-row">
         <label>Your reservation<br>date is:</label>
         <div class="date-display-val" id="selectedDateDisplay">—</div>
     </div>
 
-    <!-- Booking Form -->
     <form method="POST" action="{{ route('user.booking.store') }}" id="bookingForm">
         @csrf
         <input type="hidden" name="reservation_date" id="reservationDateInput">
@@ -229,14 +219,12 @@
         const grid = document.getElementById('calDays');
         grid.innerHTML = '';
 
-        // Empty cells before first day
         for (let i = 0; i < firstDay; i++) {
             const empty = document.createElement('div');
             empty.className = 'cal-day empty';
             grid.appendChild(empty);
         }
 
-        // Day cells
         for (let d = 1; d <= daysInMonth; d++) {
             const cell = document.createElement('div');
             cell.className = 'cal-day';
