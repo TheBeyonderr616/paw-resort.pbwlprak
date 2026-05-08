@@ -40,7 +40,7 @@
 
         .paw-font { font-family: 'Baloo 2', cursive; }
 
-        /* ---- Navbar ---- */
+        /* Navbar */
         .paw-navbar {
             background: var(--paw-light);
             border-bottom: 2px solid var(--paw-border);
@@ -70,7 +70,7 @@
             color: #fff;
         }
 
-        /* ---- Cards ---- */
+        /* Cards */
         .paw-card {
             background: #fff;
             border: 2px solid var(--paw-border);
@@ -85,7 +85,7 @@
             padding: 18px;
         }
 
-        /* ---- Stat Badges ---- */
+        /* Stat Badges */
         .stat-badge {
             border: 2px solid var(--paw-border);
             border-radius: 14px;
@@ -108,7 +108,7 @@
             line-height: 1.1;
         }
 
-        /* ---- Buttons ---- */
+        /* Buttons */
         .btn-paw {
             background: var(--paw-brown);
             color: #fff;
@@ -149,7 +149,7 @@
         }
         .btn-paw-green:hover { background: #3ea055; color: #fff; }
 
-        /* ---- Inputs ---- */
+        /* Inputs */
         .paw-input {
             border: 2px solid var(--paw-border);
             border-radius: 25px;
@@ -167,7 +167,7 @@
         }
         .paw-input::placeholder { color: #aaa; }
 
-        /* ---- Page wrapper max-width for mobile look on desktop ---- */
+        /*  Page wrapper max-width for mobile look on desktop  */
         .page-wrapper {
             max-width: 480px;
             margin: 0 auto;
@@ -182,7 +182,7 @@
             .page-wrapper { max-width: 900px; }
         }
 
-        /* ---- Alert ---- */
+        /* Alert */
         .paw-alert {
             border-radius: 14px;
             border: none;
@@ -195,7 +195,7 @@
 </head>
 <body>
 
-    @include('components.navbar')
+    @include('layouts.navigation')
 
     <main>
         @yield('content')

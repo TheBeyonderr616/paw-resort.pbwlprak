@@ -98,7 +98,6 @@
         </form>
     </div>
 
-    <!-- Registered Pets -->
     @if(count($pets) > 0)
     <div class="pet-list">
         <h6 class="paw-font fw-bold mb-3" style="color:var(--paw-brown);">Your Pets</h6>
@@ -127,7 +126,7 @@
         el.classList.add('selected');
         document.getElementById('typeInput').value = val;
     }
-    // Set initial selection
+
     const initial = document.getElementById('typeInput').value;
     document.querySelectorAll('.type-btn').forEach((btn, i) => {
         const types = ['dog','cat','hamster','rabbit','other'];
