@@ -4,56 +4,67 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Pet;
+use App\Models\Cage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    // ── Dashboard ──────────────────────────────────────────────────────────────
-
+    // ── Dashboard ─────────────────────────────────────────────
     public function dashboard()
     {
         $pets = Pet::where('user_id', Auth::id())->get();
         return view('user.dashboard', compact('pets'));
     }
 
-    // ── Booking ────────────────────────────────────────────────────────────────
+    // ── Booking Page ──────────────────────────────────────────
+    public function booking()
+{
+    $cages = \App\Models\Cage::where('status', 'available')->get();
+    return view('user.booking', compact('cages'));
+}
 
-    public function booking(Request $request)
-    {
-        return view('user.booking');
-    }
-
+    // ── Store Booking (WITH CAGE LOCK SYSTEM) ────────────────
     public function storeBooking(Request $request)
-    {
-        $request->validate([
-            'reservation_date' => 'required|date|after_or_equal:today',
-            'pawckage'         => 'required|in:daily,weekly,vip',
-        ]);
+{
+    $request->validate([
+        'reservation_date' => 'required|date|after_or_equal:today',
+        'pawckage'         => 'required|in:daily,weekly,vip',
+        'cage_id'          => 'required|exists:cages,id',
+    ]);
 
-        Booking::create([
-            'user_id'          => Auth::id(),
-            'reservation_date' => $request->reservation_date,
-            'pawckage'         => $request->pawckage,
-            'status'           => 'pending',
-        ]);
+    $exists = Booking::where('cage_id', $request->cage_id)
+        ->where('reservation_date', $request->reservation_date)
+        ->whereIn('status', ['pending', 'confirmed'])
+        ->exists();
 
-        return redirect()->route('user.booking')
-            ->with('success', 'Booking submitted! 🐾 Please wait for confirmation.');
+    if ($exists) {
+        return back()->with('error', 'Cage sudah dibooking di tanggal ini');
     }
 
-    // ── Payment (user view) ────────────────────────────────────────────────────
+    Booking::create([
+        'user_id'          => Auth::id(),
+        'cage_id'          => $request->cage_id,
+        'reservation_date' => $request->reservation_date,
+        'pawckage'         => $request->pawckage,
+        'status'           => 'pending',
+    ]);
 
+    return redirect()->route('user.booking')
+        ->with('success', 'Booking berhasil 🐾');
+}
+
+    // ── Payment ───────────────────────────────────────────────
     public function payment()
     {
         $bookings = Booking::where('user_id', Auth::id())
-                        ->orderByDesc('created_at')
-                        ->paginate(10);
+            ->orderByDesc('created_at')
+            ->paginate(10);
+
         return view('user.payment', compact('bookings'));
     }
 
-    // ── Register Pet ───────────────────────────────────────────────────────────
-
+    // ── Register Pet ──────────────────────────────────────────
     public function registerPetForm()
     {
         $pets = Pet::where('user_id', Auth::id())->get();
@@ -75,6 +86,6 @@ class UserController extends Controller
             'type'    => $request->type,
         ]);
 
-        return back()->with('success', 'Pet registered! 🐾');
+        return back()->with('success', '🐾 Pet registered successfully!');
     }
 }

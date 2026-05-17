@@ -4,24 +4,21 @@
 
 @push('styles')
 <style>
-    .booking-page { padding: 20px 16px; }
+.booking-page {
+    padding: 28px 16px;
+    max-width: 720px;
+    margin: auto;
+}
 
-    .page-title {
-        font-family: 'Baloo 2', cursive;
-        font-size: 2rem;
-        font-weight: 800;
-        color: var(--paw-brown);
-        text-align: center;
-        margin-bottom: 4px;
-    }
-    .page-tagline {
-        text-align: center;
-        font-weight: 700;
-        color: var(--paw-teal);
-        font-size: 0.9rem;
-        margin-bottom: 24px;
-    }
+.page-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--paw-brown);
+    text-align: center;
+}
 
+<<<<<<< Updated upstream
     .pawckage-select-btn {
         display: flex;
         justify-content: space-between;
@@ -77,37 +74,38 @@
         transition: background .2s;
     }
     .cal-nav-btn:hover { background: var(--paw-border); }
+=======
+.page-tagline {
+    text-align: center;
+    font-weight: 600;
+    color: #777;
+    margin-bottom: 20px;
+}
 
-    .cal-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 4px;
-    }
-    .cal-day-header {
-        text-align: center;
-        font-size: 0.75rem;
-        font-weight: 800;
-        color: var(--paw-brown);
-        padding: 4px 0;
-    }
-    .cal-day {
-        text-align: center;
-        padding: 8px 4px;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: var(--paw-dark);
-        transition: all .15s;
-        min-width: 0;
-    }
-    .cal-day:hover { background: var(--paw-brown); color: #fff; }
-    .cal-day.selected { background: var(--paw-brown); color: #fff; }
-    .cal-day.today { border: 2px solid var(--paw-teal); }
-    .cal-day.empty { cursor: default; }
-    .cal-day.past { opacity: 0.35; cursor: not-allowed; }
-    .cal-day.past:hover { background: none; color: var(--paw-dark); }
+.card-box {
+    background: #fff;
+    border: 2px solid var(--paw-border);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
 
+.label {
+    font-weight: 800;
+    margin-bottom: 6px;
+    display: block;
+}
+>>>>>>> Stashed changes
+
+.select, .input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid var(--paw-border);
+    font-weight: 600;
+}
+
+<<<<<<< Updated upstream
     .date-display-row {
         display: flex;
         align-items: center;
@@ -129,16 +127,29 @@
         min-width: 130px;
         text-align: center;
     }
+=======
+.btn-paw {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    background: var(--paw-brown);
+    color: #fff;
+    font-weight: 800;
+}
+>>>>>>> Stashed changes
 </style>
 @endpush
 
 @section('content')
+
 <div class="page-wrapper">
 <div class="booking-page">
 
-    <div class="page-title">PawResort!</div>
-    <div class="page-tagline">We take care of your Pets!</div>
+    <div class="page-title">🐾 PawResort Booking</div>
+    <div class="page-tagline">Select date and cage</div>
 
+<<<<<<< Updated upstream
     <div style="font-weight:700; font-size:0.9rem; color:var(--paw-dark); margin-bottom:8px;">
         Choose your favourite Pawckage! :
     </div>
@@ -178,27 +189,55 @@
     </div>
 
     <form method="POST" action="{{ route('user.booking.store') }}" id="bookingForm">
+=======
+    {{-- FORM --}}
+    <form method="POST" action="{{ route('user.booking.store') }}">
+>>>>>>> Stashed changes
         @csrf
-        <input type="hidden" name="reservation_date" id="reservationDateInput">
-        <input type="hidden" name="pawckage" id="pawckageInput" value="{{ request('pawckage', 'daily') }}">
 
-        @if($errors->any())
-        <div class="alert paw-alert alert-danger mb-3">{{ $errors->first() }}</div>
-        @endif
+        {{-- DATE --}}
+        <div class="card-box">
+            <label class="label">Reservation Date</label>
+            <input type="date" name="reservation_date" class="input" required>
+        </div>
 
-        @if(session('success'))
-        <div class="alert paw-alert alert-success mb-3">{{ session('success') }}</div>
-        @endif
+        {{-- CAGE --}}
+        <div class="card-box">
+            <label class="label">Choose Cage</label>
 
-        <button type="submit" class="btn-paw btn w-100 py-3" onclick="return validateForm()">
-            🐾 Confirm Booking
-        </button>
+            <select name="cage_id" class="select" required>
+    <option value="">-- Select Cage --</option>
+
+    @foreach($cages as $cage)
+        <option value="{{ $cage->id }}"
+            {{ $cage->status !== 'available' ? 'disabled' : '' }}>
+
+            {{ $cage->name }}
+            {{ $cage->status !== 'available' ? '(Locked)' : '' }}
+
+        </option>
+    @endforeach
+</select>
+        </div>
+
+        {{-- PACKAGE --}}
+        <div class="card-box">
+            <label class="label">Package</label>
+
+            <select name="pawckage" class="select">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="vip">VIP</option>
+            </select>
+        </div>
+
+        <button class="btn-paw">Confirm Booking 🐾</button>
     </form>
 
 </div>
 </div>
-@endsection
 
+<<<<<<< Updated upstream
 @push('scripts')
 <script>
     const MONTHS = ['January','February','March','April','May','June',
@@ -281,3 +320,6 @@
     renderCalendar();
 </script>
 @endpush
+=======
+@endsection
+>>>>>>> Stashed changes

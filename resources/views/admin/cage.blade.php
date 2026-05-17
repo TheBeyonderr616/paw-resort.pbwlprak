@@ -252,6 +252,58 @@
 </div>
 @endsection
 
+<!-- Save Button -->
+<form method="POST" action="{{ route('admin.cage.save') }}" id="cageSaveForm">
+    <div class="paw-card mb-4">
+
+    <h4 class="mb-3">Manage Cage</h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Status</th>
+                <th width="150">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach($cages as $cage)
+            <tr>
+                <td>{{ $cage->name }}</td>
+
+                <td>
+                    @if($cage->status === 'available')
+                        <span class="badge bg-success">Available</span>
+                    @else
+                        <span class="badge bg-danger">Locked</span>
+                    @endif
+                </td>
+
+                <td>
+                    <form method="POST"
+                          action="{{ route('admin.cage.toggle', $cage->id) }}">
+
+                        @csrf
+                        @method('PATCH')
+
+                        <button type="submit"
+                                class="btn btn-sm btn-dark">
+
+                            {{ $cage->status === 'available'
+                                ? 'Lock'
+                                : 'Unlock' }}
+
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+</div>
+
 @push('scripts')
 <script>
     const TOTAL_CAGES = 50;

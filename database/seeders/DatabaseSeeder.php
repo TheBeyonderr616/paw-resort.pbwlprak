@@ -10,7 +10,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin user
+        // ── ADMIN USER ─────────────────────────────
         User::firstOrCreate(
             ['email' => 'admin@pawresort.com'],
             [
@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Sample user
+        // ── SAMPLE USER ────────────────────────────
         User::firstOrCreate(
             ['email' => 'user@pawresort.com'],
             [
@@ -29,5 +29,10 @@ class DatabaseSeeder extends Seeder
                 'role'     => 'user',
             ]
         );
+
+        // ── CAGE SEED (INI YANG BARU WAJIB) ───────
+        $this->call([
+            CageSeeder::class,
+        ]);
     }
 }

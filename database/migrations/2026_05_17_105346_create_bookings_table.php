@@ -10,14 +10,29 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+
+            $table->foreignId('user_id')
+                ->constrained()
+                ->onDelete('cascade');
+
+            // 🔥 INI WAJIB
+            $table->foreignId('cage_id')
+                ->constrained()
+                ->onDelete('cascade');
+
             $table->string('pet_name')->nullable();
             $table->string('pet_type')->nullable();
             $table->string('breed')->nullable();
             $table->string('pet_photo')->nullable();
+
             $table->date('reservation_date');
-            $table->enum('pawckage', ['daily', 'weekly', 'vip'])->default('daily');
-            $table->enum('status', ['pending', 'confirmed', 'declined'])->default('pending');
+
+            $table->enum('pawckage', ['daily', 'weekly', 'vip'])
+                ->default('daily');
+
+            $table->enum('status', ['pending', 'confirmed', 'declined'])
+                ->default('pending');
+
             $table->timestamps();
         });
     }
