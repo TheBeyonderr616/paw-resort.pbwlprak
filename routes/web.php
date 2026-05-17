@@ -25,7 +25,7 @@ Route::get('/pawckage', function () {
 
 /*
 |--------------------------------------------------------------------------
-| AUTH (Laravel Breeze STANDARD - CLEAN)
+| AUTH (Laravel Breeze)
 |--------------------------------------------------------------------------
 */
 
@@ -72,7 +72,7 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| USER AREA
+| USER AREA (FINAL FIX CAGE BOOKING)
 |--------------------------------------------------------------------------
 */
 
@@ -84,6 +84,7 @@ Route::middleware(['auth'])
         Route::get('/dashboard', [UserController::class, 'dashboard'])
             ->name('dashboard');
 
+        // BOOKING SYSTEM (USER PILIH CAGE)
         Route::get('/booking', [UserController::class, 'booking'])
             ->name('booking');
 
@@ -103,7 +104,7 @@ Route::middleware(['auth'])
 
 /*
 |--------------------------------------------------------------------------
-| ADMIN AREA
+| ADMIN AREA (CAGE MANAGEMENT)
 |--------------------------------------------------------------------------
 */
 
@@ -121,7 +122,7 @@ Route::middleware(['auth', 'verified'])
         Route::post('/cage', [AdminController::class, 'saveCage'])
             ->name('cage.save');
 
-        // 🔥 REAL CAGE LOCK SYSTEM
+        // LOCK / UNLOCK CAGE SYSTEM
         Route::patch('/cage/{id}/toggle', [AdminController::class, 'toggleCage'])
             ->name('cage.toggle');
 

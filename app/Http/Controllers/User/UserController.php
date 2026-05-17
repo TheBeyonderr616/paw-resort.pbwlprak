@@ -29,26 +29,31 @@ class UserController extends Controller
 {
     $request->validate([
         'reservation_date' => 'required|date|after_or_equal:today',
-        'pawckage'         => 'required|in:daily,weekly,vip',
-        'cage_id'          => 'required|exists:cages,id',
+        'pawckage' => 'required|in:daily,weekly,vip',
+        'cage_id' => 'required|exists:cages,id',
     ]);
 
+    // CEK DOUBLE BOOKING
     $exists = Booking::where('cage_id', $request->cage_id)
         ->where('reservation_date', $request->reservation_date)
         ->whereIn('status', ['pending', 'confirmed'])
         ->exists();
 
     if ($exists) {
-        return back()->with('error', 'Cage sudah dibooking di tanggal ini');
+        return back()->with('error', 'Cage sudah dipakai di tanggal ini');
     }
 
+    // SIMPAN BOOKING
     Booking::create([
-        'user_id'          => Auth::id(),
-        'cage_id'          => $request->cage_id,
+        'user_id' => auth()->id(),
+        'cage_id' => $request->cage_id,
         'reservation_date' => $request->reservation_date,
-        'pawckage'         => $request->pawckage,
-        'status'           => 'pending',
+        'pawckage' => $request->pawckage,
+        'status' => 'pending',
     ]);
+
+    Cage::where('id', $request->cage_id)
+        ->update(['status' => 'occupied']);
 
     return redirect()->route('user.booking')
         ->with('success', 'Booking berhasil 🐾');
