@@ -4,214 +4,220 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>@yield('title', 'PawResort')</title>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <style>
     :root {
-        --paw-pink:     #f5eef8;
-        --paw-cream:    #fdf6f0;
-        --paw-brown:    #c47a3a;
-        --paw-dark:     #4a3728;
-        --paw-teal:     #3a7d8c;
-        --paw-green:    #5bbd72;
-        --paw-red:      #e05c5c;
-        --paw-light:    #f9f4fb;
-        --paw-card:     #ffffffcc;
-        --paw-border:   #e8d5c4;
-        --paw-shadow:   rgba(196,122,58,0.15);
+        --paw-pink:   #f5eef8;
+        --paw-cream:  #fdf6f0;
+        --paw-brown:  #c47a3a;
+        --paw-dark:   #3a2c1e;
+        --paw-teal:   #3a7d8c;
+        --paw-green:  #4caf7d;
+        --paw-red:    #e05c5c;
+        --paw-light:  #faf6f2;
+        --paw-border: #e0cbb8;
+        --paw-shadow: rgba(196,122,58,0.13);
     }
 
-    * {
-        box-sizing: border-box;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
         font-family: 'Nunito', sans-serif;
-        background-color: var(--paw-light);
+        background: var(--paw-light);
         min-height: 100vh;
         color: var(--paw-dark);
-
-        /* 🔥 GLOBAL TEXT UDAH DIBESARIN */
-        font-size: 16px;
+        font-size: 17px;
         line-height: 1.7;
     }
 
-    .paw-font {
-        font-family: 'Baloo 2', cursive;
-    }
+    h1,h2,h3,h4,h5,h6 { font-family: 'Baloo 2', cursive; }
 
-    /* NAVBAR */
+    /* ── NAVBAR ── */
     .paw-navbar {
-        background: var(--paw-light);
-        border-bottom: 2px solid var(--paw-border);
-        padding: 12px 18px;
+        background: #fff;
+        border-bottom: 2.5px solid var(--paw-border);
+        padding: 16px 40px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
     }
-
     .paw-navbar .brand {
         font-family: 'Baloo 2', cursive;
-        font-size: 1.7rem;
+        font-size: 2.1rem;
         color: var(--paw-brown);
         font-weight: 800;
         text-decoration: none;
     }
-
     .paw-navbar .nav-btn {
         border: 2px solid var(--paw-brown);
-        border-radius: 20px;
-        padding: 8px 18px;
+        border-radius: 25px;
+        padding: 10px 26px;
         color: var(--paw-dark);
-        font-weight: 700;
-        font-size: 0.95rem;
+        font-weight: 800;
+        font-size: 1rem;
         text-decoration: none;
-        margin-left: 6px;
-        transition: 0.2s;
+        margin-left: 10px;
+        transition: .2s;
     }
-
     .paw-navbar .nav-btn:hover,
     .paw-navbar .nav-btn.active {
         background: var(--paw-brown);
         color: #fff;
     }
 
-    /* CARD */
+    /* ── PAGE WRAPPER ── */
+    .page-wrapper {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 36px 40px 80px;
+        min-height: calc(100vh - 74px);
+    }
+
+    /* ── CARDS ── */
     .paw-card {
         background: #fff;
         border: 2px solid var(--paw-border);
-        border-radius: 20px;
-        padding: 26px;
-        margin-bottom: 16px;
+        border-radius: 24px;
+        padding: 36px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px var(--paw-shadow);
     }
 
-    .paw-card-soft {
-        background: var(--paw-cream);
-        border: 2px solid var(--paw-border);
-        border-radius: 20px;
-        padding: 26px;
-    }
-
-    /* STAT */
-    .stat-badge {
-        border: 2px solid var(--paw-border);
-        border-radius: 14px;
-        padding: 12px 16px;
-        text-align: center;
-        background: #fff;
-    }
-
-    .stat-badge .label {
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: var(--paw-brown);
-        text-transform: uppercase;
-    }
-
-    .stat-badge .value {
-        font-family: 'Baloo 2', cursive;
-        font-size: 2.4rem;
-        font-weight: 800;
-        color: var(--paw-brown);
-    }
-
-    /* BUTTON */
+    /* ── BUTTONS ── */
     .btn-paw {
         background: var(--paw-brown);
-        color: #fff;
+        color: #fff !important;
         border: none;
-        border-radius: 25px;
-        font-weight: 700;
-        padding: 12px 26px;
-        font-size: 1rem;
-        transition: 0.2s;
+        border-radius: 30px;
+        font-weight: 800;
+        padding: 14px 36px;
+        font-size: 1.1rem;
+        transition: .2s;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
     }
+    .btn-paw:hover { background: #a66228; transform: translateY(-2px); }
 
-    .btn-paw:hover {
-        background: #a66628;
-        color: #fff;
-        transform: translateY(-1px);
-    }
-
-    .btn-paw-outline {
-        background: transparent;
-        color: var(--paw-brown);
-        border: 2px solid var(--paw-brown);
-        border-radius: 25px;
-        font-weight: 700;
-        padding: 10px 22px;
-    }
-
-    .btn-paw-outline:hover {
+    .btn-paw-sm {
         background: var(--paw-brown);
-        color: #fff;
+        color: #fff !important;
+        border: none;
+        border-radius: 20px;
+        font-weight: 800;
+        padding: 9px 22px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+        transition: .2s;
     }
+    .btn-paw-sm:hover { background: #a66228; }
 
-    /* INPUT */
-    .paw-input {
-        border: 2px solid var(--paw-border);
-        border-radius: 18px;
-        padding: 12px 16px;
-        font-size: 1rem;
-        background: #f5f0f8;
+    .btn-danger-sm {
+        background: var(--paw-red);
+        color: #fff !important;
+        border: none;
+        border-radius: 20px;
+        font-weight: 800;
+        padding: 9px 22px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+        transition: .2s;
+    }
+    .btn-danger-sm:hover { background: #c04444; }
+
+    .btn-outline-paw {
+        background: transparent;
+        color: var(--paw-brown) !important;
+        border: 2.5px solid var(--paw-brown);
+        border-radius: 20px;
+        font-weight: 800;
+        padding: 9px 22px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+        transition: .2s;
+    }
+    .btn-outline-paw:hover { background: var(--paw-brown); color: #fff !important; }
+
+    /* ── INPUTS ── */
+    .paw-input, .paw-select {
         width: 100%;
+        padding: 14px 18px;
+        border: 2.5px solid var(--paw-border);
+        border-radius: 16px;
+        font-size: 1.05rem;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+        background: #faf8f5;
+        transition: .2s;
     }
-
-    .paw-input:focus {
+    .paw-input:focus, .paw-select:focus {
         outline: none;
         border-color: var(--paw-brown);
         background: #fff;
+        box-shadow: 0 0 0 4px rgba(196,122,58,0.12);
     }
 
-    /* PAGE WRAPPER (UI LEBIH BESAR & RESPONSIVE) */
-    .page-wrapper {
-        max-width: 900px;
-        margin: 0 auto;
-        min-height: 100vh;
-        padding: 18px 16px 60px;
+    /* ── FORM LABEL ── */
+    .form-label-paw {
+        font-weight: 800;
+        font-size: 1rem;
+        color: var(--paw-dark);
+        margin-bottom: 8px;
+        display: block;
     }
 
-    @media (min-width: 768px) {
-        .page-wrapper {
-            max-width: 1050px;
-        }
-    }
+    /* ── STATUS BADGES ── */
+    .badge-pending  { background:#fff4d6; color:#8a6d1d; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
+    .badge-confirmed{ background:#d7f5e6; color:#146c43; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
+    .badge-declined { background:#ffe0e3; color:#a61b29; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
 
-    @media (min-width: 1024px) {
-        .page-wrapper {
-            max-width: 1200px;
-        }
-    }
+    /* ── ALERT ── */
+    .paw-alert { border-radius: 16px; font-weight: 700; padding: 16px 22px; font-size: 1rem; }
 
-    /* ALERT */
-    .paw-alert {
-        border-radius: 14px;
+    /* ── PAGE TITLE ── */
+    .page-title {
+        font-family: 'Baloo 2', cursive;
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: var(--paw-brown);
+        text-align: center;
+        margin-bottom: 6px;
+    }
+    .page-tagline {
+        text-align: center;
         font-weight: 600;
-        font-size: 0.95rem;
+        color: #999;
+        font-size: 1.1rem;
+        margin-bottom: 32px;
+    }
+
+    @media(max-width: 768px) {
+        .page-wrapper { padding: 20px 16px 60px; }
+        .paw-navbar { padding: 14px 16px; }
+        .page-title { font-size: 2.1rem; }
     }
     </style>
 
     @stack('styles')
 </head>
-
 <body>
-
     @include('layouts.navigation')
-
     <main class="page-wrapper">
         @yield('content')
     </main>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     @stack('scripts')
-
 </body>
 </html>

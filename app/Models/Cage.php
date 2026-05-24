@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cage extends Model
 {
@@ -11,19 +11,13 @@ class Cage extends Model
 
     protected $fillable = [
         'code',
+        'name',
         'type',
         'status',
     ];
 
-    // relasi ke booking
     public function bookings()
     {
         return $this->hasMany(Booking::class);
-    }
-
-    // helper: cek apakah cage available
-    public function isAvailable()
-    {
-        return $this->status === 'available';
     }
 }

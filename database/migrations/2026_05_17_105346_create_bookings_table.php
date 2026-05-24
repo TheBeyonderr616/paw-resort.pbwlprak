@@ -15,7 +15,6 @@ return new class extends Migration
                 ->constrained()
                 ->onDelete('cascade');
 
-            // 🔥 INI WAJIB
             $table->foreignId('cage_id')
                 ->constrained()
                 ->onDelete('cascade');
