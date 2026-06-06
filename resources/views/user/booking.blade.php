@@ -4,131 +4,125 @@
 
 @push('styles')
 <style>
-    .booking-page { padding: 20px 16px; }
+.booking-page {
+    padding: 32px 20px;
+    max-width: 760px;
+    margin: auto;
+}
+.page-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--paw-brown);
+    text-align: center;
+}
+.page-tagline {
+    text-align: center;
+    font-weight: 600;
+    color: #777;
+    margin-bottom: 26px;
+    font-size: 1.05rem;
+}
+.card-box {
+    background: #fff;
+    border: 2px solid var(--paw-border);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+.label {
+    font-weight: 800;
+    margin-bottom: 8px;
+    display: block;
+    font-size: 1.05rem;
+}
+.select, .input {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 2px solid var(--paw-border);
+    font-weight: 600;
+    font-size: 1rem;
+}
+.select:focus, .input:focus {
+    border-color: var(--paw-brown);
+    outline: none;
+}
+.btn-submit {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 16px;
+    background: var(--paw-brown);
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-submit:hover { background: #a66628; transform: translateY(-2px); }
 
-    .page-title {
-        font-family: 'Baloo 2', cursive;
-        font-size: 2rem;
-        font-weight: 800;
-        color: var(--paw-brown);
-        text-align: center;
-        margin-bottom: 4px;
-    }
-    .page-tagline {
-        text-align: center;
-        font-weight: 700;
-        color: var(--paw-teal);
-        font-size: 0.9rem;
-        margin-bottom: 24px;
-    }
-
-    .pawckage-select-btn {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: var(--paw-cream);
-        border: 2px solid var(--paw-border);
-        border-radius: 14px;
-        padding: 12px 18px;
-        font-weight: 700;
-        color: var(--paw-dark);
-        cursor: pointer;
-        text-decoration: none;
-        margin-bottom: 24px;
-        transition: border-color .2s;
-    }
-    .pawckage-select-btn:hover { border-color: var(--paw-brown); color: var(--paw-dark); }
-    .pawckage-select-btn span { font-size: 0.9rem; }
-
-    .rabbit-deco {
-        text-align: right;
-        font-size: 70px;
-        margin-bottom: -20px;
-        line-height: 1;
-    }
-
-    .cal-box {
-        background: var(--paw-cream);
-        border: 2.5px solid var(--paw-border);
-        border-radius: 20px;
-        padding: 20px;
-        margin-bottom: 20px;
-    }
-    .cal-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 14px;
-    }
-    .cal-month-year {
-        font-family: 'Baloo 2', cursive;
-        font-size: 1.4rem;
-        font-weight: 800;
-        color: var(--paw-brown);
-    }
-    .cal-nav-btn {
-        background: none;
-        border: none;
-        font-size: 1.2rem;
-        color: var(--paw-brown);
-        cursor: pointer;
-        padding: 4px 10px;
-        border-radius: 8px;
-        transition: background .2s;
-    }
-    .cal-nav-btn:hover { background: var(--paw-border); }
-
-    .cal-grid {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 4px;
-    }
-    .cal-day-header {
-        text-align: center;
-        font-size: 0.75rem;
-        font-weight: 800;
-        color: var(--paw-brown);
-        padding: 4px 0;
-    }
-    .cal-day {
-        text-align: center;
-        padding: 8px 4px;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: var(--paw-dark);
-        transition: all .15s;
-        min-width: 0;
-    }
-    .cal-day:hover { background: var(--paw-brown); color: #fff; }
-    .cal-day.selected { background: var(--paw-brown); color: #fff; }
-    .cal-day.today { border: 2px solid var(--paw-teal); }
-    .cal-day.empty { cursor: default; }
-    .cal-day.past { opacity: 0.35; cursor: not-allowed; }
-    .cal-day.past:hover { background: none; color: var(--paw-dark); }
-
-    .date-display-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: var(--paw-cream);
-        border: 2px solid var(--paw-border);
-        border-radius: 14px;
-        padding: 14px 18px;
-        margin-bottom: 20px;
-    }
-    .date-display-row label { font-size: 0.85rem; font-weight: 700; color: var(--paw-dark); }
-    .date-display-val {
-        background: #e8e0ef;
-        border-radius: 10px;
-        padding: 8px 18px;
-        font-weight: 800;
-        color: var(--paw-dark);
-        font-size: 0.95rem;
-        min-width: 130px;
-        text-align: center;
-    }
+/* Cage grid pilihan user */
+.cage-picker-title {
+    font-family: 'Baloo 2', cursive;
+    font-weight: 800;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: var(--paw-dark);
+}
+.cage-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.cage-cell {
+    aspect-ratio: 1;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all .2s;
+    position: relative;
+}
+.cage-cell.available {
+    background: #c8f0c8;
+    color: #2d7a2d;
+}
+.cage-cell.available:hover {
+    background: #a0dca0;
+    transform: scale(1.08);
+}
+.cage-cell.occupied {
+    background: #f0c8c8;
+    color: #8a2020;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+.cage-cell.selected {
+    background: var(--paw-brown);
+    color: #fff;
+    border-color: #8a5010;
+    transform: scale(1.1);
+}
+.cage-legend {
+    display: flex;
+    gap: 16px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-top: 8px;
+}
+.legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 5px;
+}
 </style>
 @endpush
 
@@ -136,63 +130,84 @@
 <div class="page-wrapper">
 <div class="booking-page">
 
-    <div class="page-title">PawResort!</div>
-    <div class="page-tagline">We take care of your Pets!</div>
+    <div class="page-title">🐾 PawResort Booking</div>
+    <div class="page-tagline">Choose your cage and reservation date</div>
 
-    <div style="font-weight:700; font-size:0.9rem; color:var(--paw-dark); margin-bottom:8px;">
-        Choose your favourite Pawckage! :
-    </div>
-    <a href="{{ route('pawckage') }}" class="pawckage-select-btn">
-        <span>📦 See Pawckage!</span>
-        <i class="fa fa-chevron-right" style="font-size:0.8rem;"></i>
-    </a>
+    @if(session('success'))
+        <div class="alert alert-success rounded-4 mb-3" style="font-weight:700;">{{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger rounded-4 mb-3" style="font-weight:700;">{{ session('error') }}</div>
+    @endif
 
-    <div class="rabbit-deco">🐰🐰</div>
-
-    <div style="font-weight:700; font-size:0.9rem; color:var(--paw-dark); margin-bottom:10px;">
-        Choose reservation :
-    </div>
-    <div class="cal-box">
-        <div class="cal-header">
-            <button class="cal-nav-btn" id="prevMonth">&#8249;</button>
-            <div class="cal-month-year" id="calMonthYear">January 2026</div>
-            <button class="cal-nav-btn" id="nextMonth">&#8250;</button>
-        </div>
-
-        <div class="cal-grid" id="calGrid">
-            <div class="cal-day-header">Sun</div>
-            <div class="cal-day-header">Mon</div>
-            <div class="cal-day-header">Tue</div>
-            <div class="cal-day-header">Wed</div>
-            <div class="cal-day-header">Thu</div>
-            <div class="cal-day-header">Fri</div>
-            <div class="cal-day-header">Sat</div>
-        </div>
-
-        <div class="cal-grid" id="calDays"></div>
-    </div>
-
-    <div class="date-display-row">
-        <label>Your reservation<br>date is:</label>
-        <div class="date-display-val" id="selectedDateDisplay">—</div>
-    </div>
-
-    <form method="POST" action="{{ route('user.booking.store') }}" id="bookingForm">
+    <form method="POST" action="{{ route('user.booking.store') }}">
         @csrf
-        <input type="hidden" name="reservation_date" id="reservationDateInput">
-        <input type="hidden" name="pawckage" id="pawckageInput" value="{{ request('pawckage', 'daily') }}">
 
-        @if($errors->any())
-        <div class="alert paw-alert alert-danger mb-3">{{ $errors->first() }}</div>
-        @endif
+        {{-- RESERVATION DATE --}}
+        <div class="card-box">
+            <label class="label">📅 Reservation Date</label>
+            <input type="date" name="reservation_date" class="input"
+                min="{{ date('Y-m-d') }}" required
+                value="{{ old('reservation_date') }}">
+            @error('reservation_date')
+                <div style="color:red; font-size:0.88rem; margin-top:6px;">{{ $message }}</div>
+            @enderror
+        </div>
 
-        @if(session('success'))
-        <div class="alert paw-alert alert-success mb-3">{{ session('success') }}</div>
-        @endif
+        {{-- CAGE PICKER (USER PILIH SENDIRI) --}}
+        <div class="card-box">
+            <div class="cage-picker-title">🏠 Choose Your Cage</div>
+            <p style="font-size:0.9rem; color:#888; font-weight:600; margin-bottom:14px;">
+                Click an available cage (green) to select it
+            </p>
 
-        <button type="submit" class="btn-paw btn w-100 py-3" onclick="return validateForm()">
-            🐾 Confirm Booking
+            <input type="hidden" name="cage_id" id="selectedCageId" required>
+
+            <div class="cage-grid" id="cageGrid">
+                @foreach($cages as $cage)
+                    @php $isOccupied = $cage->status !== 'available'; @endphp
+                    <div class="cage-cell {{ $isOccupied ? 'occupied' : 'available' }}"
+                        data-id="{{ $cage->id }}"
+                        data-occupied="{{ $isOccupied ? 'true' : 'false' }}"
+                        onclick="selectCage(this, {{ $cage->id }}, {{ $isOccupied ? 'true' : 'false' }})">
+                        {{ $cage->code ?? $loop->iteration }}
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="cage-legend">
+                <span><span class="legend-dot" style="background:#c8f0c8;"></span>Available</span>
+                <span><span class="legend-dot" style="background:#f0c8c8;"></span>Occupied</span>
+                <span><span class="legend-dot" style="background:var(--paw-brown);"></span>Selected</span>
+            </div>
+
+            <div id="selectedCageLabel" style="margin-top:12px; font-weight:700; font-size:1rem; color:var(--paw-brown); display:none;">
+                ✅ Selected: Cage <span id="cageName"></span>
+            </div>
+
+            @error('cage_id')
+                <div style="color:red; font-size:0.88rem; margin-top:6px;">{{ $message }}</div>
+            @enderror
+        </div>
+
+        {{-- PACKAGE --}}
+        <div class="card-box">
+            <label class="label">📦 Package</label>
+            <select name="pawckage" class="select" required>
+                <option value="">-- Select Package --</option>
+                <option value="daily" {{ old('pawckage') == 'daily' ? 'selected' : '' }}>Daily</option>
+                <option value="weekly" {{ old('pawckage') == 'weekly' ? 'selected' : '' }}>Weekly</option>
+                <option value="vip" {{ old('pawckage') == 'vip' ? 'selected' : '' }}>VIP</option>
+            </select>
+            @error('pawckage')
+                <div style="color:red; font-size:0.88rem; margin-top:6px;">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <button type="submit" class="btn-submit">
+            Confirm Booking 🐾
         </button>
+
     </form>
 
 </div>
@@ -201,83 +216,29 @@
 
 @push('scripts')
 <script>
-    const MONTHS = ['January','February','March','April','May','June',
-                    'July','August','September','October','November','December'];
-    let currentDate = new Date();
-    let selectedDate = null;
+    let selectedCell = null;
 
-    function renderCalendar() {
-        const y = currentDate.getFullYear();
-        const m = currentDate.getMonth();
-        const today = new Date();
+    function selectCage(el, cageId, isOccupied) {
+        if (isOccupied) return;
 
-        document.getElementById('calMonthYear').textContent = `${MONTHS[m]} ${y}`;
-
-        const firstDay = new Date(y, m, 1).getDay();
-        const daysInMonth = new Date(y, m + 1, 0).getDate();
-
-        const grid = document.getElementById('calDays');
-        grid.innerHTML = '';
-
-        for (let i = 0; i < firstDay; i++) {
-            const empty = document.createElement('div');
-            empty.className = 'cal-day empty';
-            grid.appendChild(empty);
+        // Deselect previous
+        if (selectedCell) {
+            selectedCell.classList.remove('selected');
+            selectedCell.classList.add('available');
         }
 
-        for (let d = 1; d <= daysInMonth; d++) {
-            const cell = document.createElement('div');
-            cell.className = 'cal-day';
-            cell.textContent = d;
+        // Select new
+        el.classList.remove('available');
+        el.classList.add('selected');
+        selectedCell = el;
 
-            const cellDate = new Date(y, m, d);
-            const isToday = cellDate.toDateString() === today.toDateString();
-            const isPast = cellDate < new Date(today.setHours(0,0,0,0));
+        // Update hidden input
+        document.getElementById('selectedCageId').value = cageId;
 
-            if (isToday) cell.classList.add('today');
-            if (isPast) {
-                cell.classList.add('past');
-            } else {
-                cell.addEventListener('click', () => selectDate(y, m, d));
-            }
-
-            if (selectedDate &&
-                selectedDate.getFullYear() === y &&
-                selectedDate.getMonth() === m &&
-                selectedDate.getDate() === d) {
-                cell.classList.add('selected');
-            }
-
-            grid.appendChild(cell);
-        }
+        // Show label
+        const label = document.getElementById('selectedCageLabel');
+        document.getElementById('cageName').textContent = el.textContent.trim();
+        label.style.display = 'block';
     }
-
-    function selectDate(y, m, d) {
-        selectedDate = new Date(y, m, d);
-        const formatted = `${y}/${String(m+1).padStart(2,'0')}/${String(d).padStart(2,'0')}`;
-        document.getElementById('selectedDateDisplay').textContent = formatted;
-        document.getElementById('reservationDateInput').value = formatted;
-        renderCalendar();
-    }
-
-    document.getElementById('prevMonth').addEventListener('click', () => {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        renderCalendar();
-    });
-
-    document.getElementById('nextMonth').addEventListener('click', () => {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        renderCalendar();
-    });
-
-    function validateForm() {
-        if (!selectedDate) {
-            alert('Please select a reservation date first! 🐾');
-            return false;
-        }
-        return true;
-    }
-
-    renderCalendar();
 </script>
 @endpush

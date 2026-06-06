@@ -1,77 +1,60 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Models\User;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
-class AuthController extends Controller
+class AuthenticatedSessionController extends Controller
 {
-    // ── Login ──────────────────────────────────────────────────────────────────
-
-    public function showLogin()
+    /**
+     * Show login page
+     */
+    public function create(): View
     {
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    /**
+     * Handle login
+     */
+    public function store(Request $request): RedirectResponse
     {
-        $request->validate([
-            'email'    => 'required|email',
-            'password' => 'required|min:6',
+        $credentials = $request->validate([
+            'email'    => ['required', 'email'],
+            'password' => ['required'],
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
-            $request->session()->regenerate();
+        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
 
-            // Redirect based on role
-            if (Auth::user()->role === 'admin') {
-                return redirect()->route('admin.dashboard');
-            }
-            return redirect()->route('user.dashboard');
+            return back()->withErrors([
+                'email' => 'Email atau password salah.',
+            ])->onlyInput('email');
         }
 
-        return back()->withErrors([
-            'email' => 'Email or password is incorrect.',
-        ])->onlyInput('email');
-    }
+        $request->session()->regenerate();
 
-    // ── Register ───────────────────────────────────────────────────────────────
-
-    public function showRegister()
-    {
-        return view('auth.register');
-    }
-
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name'     => 'required|string|max:255',
-            'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
-        ]);
-
-        $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-            'role'     => 'user', // default role
-        ]);
-
-        Auth::login($user);
+        // redirect role
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
 
         return redirect()->route('user.dashboard');
     }
 
-    // ── Logout ────────────────────────────────────────────────────────────────
-
-    public function logout(Request $request)
+    /**
+     * Logout
+     */
+    public function destroy(Request $request): RedirectResponse
     {
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('home');
     }
 }

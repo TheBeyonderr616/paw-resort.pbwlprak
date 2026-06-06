@@ -11,13 +11,10 @@ class Booking extends Model
 
     protected $fillable = [
         'user_id',
-        'pet_name',
-        'pet_type',
-        'breed',
-        'pet_photo',
+        'cage_id',
         'reservation_date',
         'pawckage',
-        'status', // pending | confirmed | declined
+        'status',
     ];
 
     protected $casts = [
@@ -27,5 +24,10 @@ class Booking extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function cage()
+    {
+        return $this->belongsTo(Cage::class);
     }
 }

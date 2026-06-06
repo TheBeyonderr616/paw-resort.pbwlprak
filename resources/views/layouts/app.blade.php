@@ -6,201 +6,217 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'PawResort')</title>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <style>
-        :root {
-            --paw-pink:     #f5eef8;
-            --paw-cream:    #fdf6f0;
-            --paw-brown:    #c47a3a;
-            --paw-dark:     #4a3728;
-            --paw-teal:     #3a7d8c;
-            --paw-green:    #5bbd72;
-            --paw-red:      #e05c5c;
-            --paw-light:    #f9f4fb;
-            --paw-card:     #ffffffcc;
-            --paw-border:   #e8d5c4;
-            --paw-shadow:   rgba(196,122,58,0.15);
-        }
+    :root {
+        --paw-pink:   #f5eef8;
+        --paw-cream:  #fdf6f0;
+        --paw-brown:  #c47a3a;
+        --paw-dark:   #3a2c1e;
+        --paw-teal:   #3a7d8c;
+        --paw-green:  #4caf7d;
+        --paw-red:    #e05c5c;
+        --paw-light:  #faf6f2;
+        --paw-border: #e0cbb8;
+        --paw-shadow: rgba(196,122,58,0.13);
+    }
 
-        * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: var(--paw-light);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23d4b8e0' fill-opacity='0.12'%3E%3Cellipse cx='20' cy='20' rx='6' ry='5'/%3E%3Cellipse cx='32' cy='14' rx='4' ry='3.5'/%3E%3Cellipse cx='42' cy='14' rx='4' ry='3.5'/%3E%3Cellipse cx='54' cy='20' rx='6' ry='5'/%3E%3Cellipse cx='37' cy='32' rx='12' ry='10'/%3E%3C/g%3E%3C/svg%3E");
-            min-height: 100vh;
-            color: var(--paw-dark);
-        }
+    body {
+        font-family: 'Nunito', sans-serif;
+        background: var(--paw-light);
+        min-height: 100vh;
+        color: var(--paw-dark);
+        font-size: 17px;
+        line-height: 1.7;
+    }
 
-        .paw-font { font-family: 'Baloo 2', cursive; }
+    h1,h2,h3,h4,h5,h6 { font-family: 'Baloo 2', cursive; }
 
-        /* Navbar */
-        .paw-navbar {
-            background: var(--paw-light);
-            border-bottom: 2px solid var(--paw-border);
-            padding: 10px 20px;
-        }
-        .paw-navbar .brand {
-            font-family: 'Baloo 2', cursive;
-            font-size: 1.4rem;
-            color: var(--paw-brown);
-            font-weight: 800;
-            text-decoration: none;
-        }
-        .paw-navbar .nav-btn {
-            border: 2px solid var(--paw-brown);
-            border-radius: 20px;
-            padding: 4px 18px;
-            color: var(--paw-dark);
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: all .2s;
-            margin-left: 6px;
-        }
-        .paw-navbar .nav-btn:hover,
-        .paw-navbar .nav-btn.active {
-            background: var(--paw-brown);
-            color: #fff;
-        }
+    /* ── NAVBAR ── */
+    .paw-navbar {
+        background: #fff;
+        border-bottom: 2.5px solid var(--paw-border);
+        padding: 16px 40px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    .paw-navbar .brand {
+        font-family: 'Baloo 2', cursive;
+        font-size: 2.1rem;
+        color: var(--paw-brown);
+        font-weight: 800;
+        text-decoration: none;
+    }
+    .paw-navbar .nav-btn {
+        border: 2px solid var(--paw-brown);
+        border-radius: 25px;
+        padding: 10px 26px;
+        color: var(--paw-dark);
+        font-weight: 800;
+        font-size: 1rem;
+        text-decoration: none;
+        margin-left: 10px;
+        transition: .2s;
+    }
+    .paw-navbar .nav-btn:hover,
+    .paw-navbar .nav-btn.active {
+        background: var(--paw-brown);
+        color: #fff;
+    }
 
-        /* Cards */
-        .paw-card {
-            background: #fff;
-            border: 2px solid var(--paw-border);
-            border-radius: 18px;
-            padding: 18px;
-            margin-bottom: 16px;
-        }
-        .paw-card-soft {
-            background: var(--paw-cream);
-            border: 2px solid var(--paw-border);
-            border-radius: 18px;
-            padding: 18px;
-        }
+    /* ── PAGE WRAPPER ── */
+    .page-wrapper {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 36px 40px 80px;
+        min-height: calc(100vh - 74px);
+    }
 
-        /* Stat Badges */
-        .stat-badge {
-            border: 2px solid var(--paw-border);
-            border-radius: 14px;
-            padding: 10px 16px;
-            text-align: center;
-            background: #fff;
-        }
-        .stat-badge .label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--paw-brown);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .stat-badge .value {
-            font-family: 'Baloo 2', cursive;
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--paw-brown);
-            line-height: 1.1;
-        }
+    /* ── CARDS ── */
+    .paw-card {
+        background: #fff;
+        border: 2px solid var(--paw-border);
+        border-radius: 24px;
+        padding: 36px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px var(--paw-shadow);
+    }
 
-        /* Buttons */
-        .btn-paw {
-            background: var(--paw-brown);
-            color: #fff;
-            border: none;
-            border-radius: 25px;
-            font-weight: 700;
-            padding: 8px 24px;
-            font-family: 'Nunito', sans-serif;
-            transition: all .2s;
-        }
-        .btn-paw:hover { background: #a66628; color: #fff; transform: translateY(-1px); }
-        .btn-paw-outline {
-            background: transparent;
-            color: var(--paw-brown);
-            border: 2px solid var(--paw-brown);
-            border-radius: 25px;
-            font-weight: 700;
-            padding: 6px 22px;
-            transition: all .2s;
-        }
-        .btn-paw-outline:hover { background: var(--paw-brown); color: #fff; }
-        .btn-paw-red {
-            background: var(--paw-red);
-            color: #fff;
-            border: none;
-            border-radius: 25px;
-            font-weight: 700;
-            padding: 8px 24px;
-        }
-        .btn-paw-red:hover { background: #c04040; color: #fff; }
-        .btn-paw-green {
-            background: var(--paw-green);
-            color: #fff;
-            border: none;
-            border-radius: 25px;
-            font-weight: 700;
-            padding: 8px 24px;
-        }
-        .btn-paw-green:hover { background: #3ea055; color: #fff; }
+    /* ── BUTTONS ── */
+    .btn-paw {
+        background: var(--paw-brown);
+        color: #fff !important;
+        border: none;
+        border-radius: 30px;
+        font-weight: 800;
+        padding: 14px 36px;
+        font-size: 1.1rem;
+        transition: .2s;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+    }
+    .btn-paw:hover { background: #a66228; transform: translateY(-2px); }
 
-        /* Inputs */
-        .paw-input {
-            border: 2px solid var(--paw-border);
-            border-radius: 25px;
-            padding: 10px 18px;
-            font-family: 'Nunito', sans-serif;
-            font-size: 0.9rem;
-            background: #f5f0f8;
-            color: var(--paw-dark);
-            width: 100%;
-        }
-        .paw-input:focus {
-            outline: none;
-            border-color: var(--paw-brown);
-            background: #fff;
-        }
-        .paw-input::placeholder { color: #aaa; }
+    .btn-paw-sm {
+        background: var(--paw-brown);
+        color: #fff !important;
+        border: none;
+        border-radius: 20px;
+        font-weight: 800;
+        padding: 9px 22px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+        transition: .2s;
+    }
+    .btn-paw-sm:hover { background: #a66228; }
 
-        /*  Page wrapper max-width for mobile look on desktop  */
-        .page-wrapper {
-            max-width: 480px;
-            margin: 0 auto;
-            min-height: 100vh;
-            padding-bottom: 30px;
-        }
+    .btn-danger-sm {
+        background: var(--paw-red);
+        color: #fff !important;
+        border: none;
+        border-radius: 20px;
+        font-weight: 800;
+        padding: 9px 22px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+        transition: .2s;
+    }
+    .btn-danger-sm:hover { background: #c04444; }
 
-        @media (min-width: 768px) {
-            .page-wrapper { max-width: 700px; }
-        }
-        @media (min-width: 1024px) {
-            .page-wrapper { max-width: 900px; }
-        }
+    .btn-outline-paw {
+        background: transparent;
+        color: var(--paw-brown) !important;
+        border: 2.5px solid var(--paw-brown);
+        border-radius: 20px;
+        font-weight: 800;
+        padding: 9px 22px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: inline-block;
+        text-decoration: none;
+        transition: .2s;
+    }
+    .btn-outline-paw:hover { background: var(--paw-brown); color: #fff !important; }
 
-        /* Alert */
-        .paw-alert {
-            border-radius: 14px;
-            border: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
+    /* ── INPUTS ── */
+    .paw-input, .paw-select {
+        width: 100%;
+        padding: 14px 18px;
+        border: 2.5px solid var(--paw-border);
+        border-radius: 16px;
+        font-size: 1.05rem;
+        font-family: 'Nunito', sans-serif;
+        font-weight: 600;
+        background: #faf8f5;
+        transition: .2s;
+    }
+    .paw-input:focus, .paw-select:focus {
+        outline: none;
+        border-color: var(--paw-brown);
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(196,122,58,0.12);
+    }
+
+    /* ── FORM LABEL ── */
+    .form-label-paw {
+        font-weight: 800;
+        font-size: 1rem;
+        color: var(--paw-dark);
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    /* ── STATUS BADGES ── */
+    .badge-pending  { background:#fff4d6; color:#8a6d1d; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
+    .badge-confirmed{ background:#d7f5e6; color:#146c43; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
+    .badge-declined { background:#ffe0e3; color:#a61b29; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
+
+    /* ── ALERT ── */
+    .paw-alert { border-radius: 16px; font-weight: 700; padding: 16px 22px; font-size: 1rem; }
+
+    /* ── PAGE TITLE ── */
+    .page-title {
+        font-family: 'Baloo 2', cursive;
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: var(--paw-brown);
+        text-align: center;
+        margin-bottom: 6px;
+    }
+    .page-tagline {
+        text-align: center;
+        font-weight: 600;
+        color: #999;
+        font-size: 1.1rem;
+        margin-bottom: 32px;
+    }
+
+    @media(max-width: 768px) {
+        .page-wrapper { padding: 20px 16px 60px; }
+        .paw-navbar { padding: 14px 16px; }
+        .page-title { font-size: 2.1rem; }
+    }
     </style>
 
     @stack('styles')
 </head>
 <body>
-
     @include('layouts.navigation')
-
-    <main>
+    <main class="page-wrapper">
         @yield('content')
     </main>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
 </body>
