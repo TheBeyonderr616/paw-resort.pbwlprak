@@ -4,10 +4,33 @@
 
 @push('styles')
 <style>
+.page-wrapper { display:flex; justify-content:center; }
 .booking-page {
     padding: 32px 20px;
-    max-width: 760px;
+    width: 80vw;
+    max-width: none;
     margin: auto;
+    box-sizing: border-box;
+}
+/* Increase base font size for this page so all rem-based fonts scale up */
+.booking-page { font-size: 24px; }
+/* Make page title more prominent */
+.page-title { font-size: 4.2rem; }
+.page-tagline { font-size: 1.4rem; }
+.label { font-size: 1.4rem; }
+.select, .input { font-size: 1.2rem; }
+.btn-submit { font-size: 1.35rem; }
+.cage-picker-title { font-size: 1.4rem; }
+.cage-cell { font-size: 1.15rem; }
+.cage-legend { font-size: 1rem; }
+/* Make all direct divs inside booking-page occupy 100% (which equals 80vw)
+   so visually every section fills ~80% of the viewport */
+.booking-page > div,
+.booking-page .card-box,
+.booking-page .cage-grid,
+.booking-page .cage-legend {
+    width: 100%;
+    box-sizing: border-box;
 }
 .page-title {
     font-family: 'Baloo 2', cursive;
@@ -21,7 +44,7 @@
     font-weight: 600;
     color: #777;
     margin-bottom: 26px;
-    font-size: 1.05rem;
+    font-size: 1.4rem;
 }
 .card-box {
     background: #fff;
@@ -29,6 +52,9 @@
     border-radius: 18px;
     padding: 20px;
     margin-bottom: 18px;
+}
+.card-box.cage-card {
+    padding: 12px 14px;
 }
 .label {
     font-weight: 800;
@@ -38,11 +64,11 @@
 }
 .select, .input {
     width: 100%;
-    padding: 14px 16px;
-    border-radius: 14px;
+    padding: 18px 20px;
+    border-radius: 16px;
     border: 2px solid var(--paw-border);
-    font-weight: 600;
-    font-size: 1rem;
+    font-weight: 700;
+    font-size: 1.25rem;
 }
 .select:focus, .input:focus {
     border-color: var(--paw-brown);
@@ -50,13 +76,13 @@
 }
 .btn-submit {
     width: 100%;
-    padding: 16px;
+    padding: 20px;
     border: none;
-    border-radius: 16px;
+    border-radius: 18px;
     background: var(--paw-brown);
     color: #fff;
     font-weight: 800;
-    font-size: 1.15rem;
+    font-size: 1.45rem;
     cursor: pointer;
     transition: 0.2s;
 }
@@ -66,7 +92,7 @@
 .cage-picker-title {
     font-family: 'Baloo 2', cursive;
     font-weight: 800;
-    font-size: 1.1rem;
+    font-size: 1.55rem;
     margin-bottom: 10px;
     color: var(--paw-dark);
 }
@@ -82,7 +108,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem;
+    font-size: 1.6rem;
     font-weight: 800;
     cursor: pointer;
     border: 2px solid transparent;
@@ -155,9 +181,9 @@
         </div>
 
         {{-- CAGE PICKER (USER PILIH SENDIRI) --}}
-        <div class="card-box">
+        <div class="card-box cage-card">
             <div class="cage-picker-title">🏠 Choose Your Cage</div>
-            <p style="font-size:0.9rem; color:#888; font-weight:600; margin-bottom:14px;">
+            <p style="font-size:0.95rem; color:#888; font-weight:600; margin-bottom:12px;">
                 Click an available cage (green) to select it
             </p>
 

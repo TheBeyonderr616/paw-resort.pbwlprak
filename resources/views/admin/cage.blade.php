@@ -65,7 +65,7 @@
         position: absolute;
         bottom: 4px;
         right: 7px;
-        font-size: 0.65rem;
+        font-size: 2rem;
         font-weight: 800;
         opacity: 0.7;
         color: inherit;
@@ -79,13 +79,13 @@
         margin-bottom: 24px;
     }
     .page-dot {
-        width: 38px;
-        height: 38px;
+        width: 62px;
+        height: 62px;
         border-radius: 50%;
         border: 2px solid var(--paw-border);
         background: #fff;
-        font-weight: 800;
-        font-size: 0.95rem;
+        font-weight: 900;
+        font-size: 1.8rem;
         cursor: pointer;
         transition: all .2s;
         display:flex; align-items:center; justify-content:center;
@@ -97,16 +97,15 @@
         color: #fff;
     }
     .page-arrow {
-        font-size: 1.4rem;
+        font-size: 1.8rem;
         cursor: pointer;
         color: var(--paw-brown);
         font-weight: 900;
-        padding: 0 6px;
+        padding: 0 10px;
     }
 
     .occupancy-row {
         display: grid;
-        grid-template-columns: 1fr 1fr;
         gap: 14px;
         margin-bottom: 24px;
     }
@@ -243,12 +242,6 @@
                     <span>Vacant</span>
                 </div>
             </div>
-        </div>
-
-        <div class="updated-card">
-            <span>last updated</span>
-            <strong id="lastUpdated">just now</strong>
-            <button onclick="refreshTime()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;">🔄</button>
         </div>
     </div>
 

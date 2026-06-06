@@ -4,191 +4,264 @@
 
 @push('styles')
 <style>
-    .hero-section {
-        min-height: 65vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+    .landing-hero {
+        min-height: 80vh;
+        display: grid;
+        place-items: center;
         text-align: center;
-        padding: 50px 24px 24px;
+        background: #f9f1e8;
+        padding: 70px 24px 40px;
+        border-radius: 40px;
         position: relative;
+        overflow: hidden;
+    }
+    .landing-hero::after {
+        content: '';
+        position: absolute;
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        background: rgba(196, 122, 58, 0.12);
+        top: -40px;
+        right: -80px;
+    }
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    .hero-tagline {
+        font-weight: 700;
+        color: var(--paw-teal);
+        font-size: 1.1rem;
+        margin-bottom: 16px;
     }
     .hero-title {
         font-family: 'Baloo 2', cursive;
-        font-size: clamp(2.8rem, 7vw, 4.5rem);
+        font-size: clamp(3.8rem, 6vw, 5.8rem);
         color: var(--paw-brown);
-        font-weight: 800;
-        line-height: 1.1;
-        margin-bottom: 10px;
+        margin-bottom: 18px;
+        line-height: 0.95;
     }
-    .hero-subtitle {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: var(--paw-teal);
-        margin-bottom: 36px;
-    }
-    .login-bone-btn {
-        background: #d9c4a8;
-        color: var(--paw-dark);
-        font-family: 'Baloo 2', cursive;
-        font-size: 1.5rem;
-        font-weight: 700;
-        border: none;
-        border-radius: 50px;
-        padding: 14px 70px;
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        text-decoration: none;
-        margin-top: 18px;
-        box-shadow: 0 4px 12px var(--paw-shadow);
-        transition: all .2s;
-    }
-    .login-bone-btn:hover {
-        background: var(--paw-brown);
-        color: #fff;
-        transform: translateY(-2px);
-    }
-
-    /* Feature menu cards */
-    .menu-section { padding: 24px; }
-    .menu-card {
-        background: var(--paw-cream);
-        border: 2.5px solid var(--paw-border);
-        border-radius: 24px;
-        padding: 28px 28px;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        cursor: pointer;
-        text-decoration: none;
-        color: var(--paw-dark);
-        transition: all .25s;
-        overflow: hidden;
-        position: relative;
-        min-height: 120px;
-    }
-    .menu-card:hover {
-        border-color: var(--paw-brown);
-        transform: translateX(5px);
-        box-shadow: 0 8px 24px var(--paw-shadow);
-        color: var(--paw-dark);
-    }
-    .menu-card-text h3 {
-        font-family: 'Baloo 2', cursive;
-        font-size: 2rem;
-        font-weight: 800;
-        color: var(--paw-brown);
-        margin: 0 0 6px;
-    }
-    .menu-card-text p {
-        font-size: 1rem;
+    .hero-description {
+        max-width: 760px;
+        margin: 0 auto 32px;
+        color: #775a3f;
+        font-size: 1.05rem;
         font-weight: 600;
-        color: #888;
-        margin: 0;
+        line-height: 1.8;
     }
-    .menu-card-img {
-        width: 100px;
-        height: 100px;
-        object-fit: contain;
-        position: absolute;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 64px;
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+        margin-top: 12px;
+    }
+    .hero-actions .btn-paw,
+    .hero-actions .btn-outline-paw {
+        padding: 18px 40px;
+        font-size: 1.15rem;
+    }
+    .hero-graphic {
+        margin: 0 auto 10px;
+        width: min(240px, 70vw);
+        height: min(240px, 70vw);
+        border-radius: 50%;
+        background: #fff;
+        border: 12px solid rgba(255,255,255,.9);
+        box-shadow: 0 24px 60px rgba(100,50,20,0.12);
+        display: grid;
+        place-items: center;
+        position: relative;
+    }
+    .hero-graphic span {
+        font-size: clamp(5rem, 18vw, 8rem);
         line-height: 1;
+        animation: float 3s ease-in-out infinite;
     }
 
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-14px); }
+    .service-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+        margin: 64px 0;
+    }
+    .service-card {
+        background: #fff;
+        border-radius: 26px;
+        border: 2px solid var(--paw-border);
+        padding: 28px 24px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+        transition: transform .2s, border-color .2s;
+    }
+    .service-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(196,122,58,0.35);
+    }
+    .service-card-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 18px;
+        display: grid;
+        place-items: center;
+        border-radius: 24px;
+        background: rgba(196,122,58,0.1);
+        font-size: 1.6rem;
+    }
+    .service-card h3 {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+        color: var(--paw-brown);
+    }
+    .service-card p {
+        font-size: 0.99rem;
+        color: #7d6a56;
+        font-weight: 600;
+        line-height: 1.7;
+    }
+
+    .featured-row {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 24px;
+        align-items: stretch;
+        margin-bottom: 60px;
+    }
+    .feature-main {
+        border-radius: 32px;
+        overflow: hidden;
+        min-height: 420px;
+        display: grid;
+        align-items: end;
+        position: relative;
+        background: linear-gradient(180deg, #f7e7d5 0%, #f0d7c0 100%);
+    }
+    .feature-main::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: url('https://images.pexels.com/photos/4587997/pexels-photo-4587997.jpeg?auto=compress&cs=tinysrgb&w=1200') center/cover no-repeat;
+        opacity: 0.45;
+    }
+    .feature-main-content {
+        position: relative;
+        padding: 36px;
+        backdrop-filter: blur(2px);
+        background: rgba(255,255,255,0.55);
+        border-top-left-radius: 32px;
+        border-top-right-radius: 32px;
+        margin: 24px;
+    }
+    .feature-main-content h3 {
+        font-size: 2.4rem;
+        margin-bottom: 16px;
+        color: var(--paw-brown);
+    }
+    .feature-main-content p {
+        font-size: 1.05rem;
+        color: #5e4837;
+        font-weight: 600;
+        line-height: 1.8;
+    }
+
+    .feature-side {
+        display: grid;
+        gap: 20px;
+    }
+    .feature-card {
+        background: #fff;
+        border-radius: 28px;
+        border: 1px solid rgba(196,122,58,0.12);
+        box-shadow: 0 18px 40px rgba(0,0,0,0.06);
+        padding: 28px 24px;
+        display: grid;
+        gap: 16px;
+    }
+    .feature-card.light {
+        background: #f7e7d5;
+    }
+    .feature-card.dark {
+        background: #f8dad0;
+    }
+    .feature-card-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 18px;
+        display: grid;
+        place-items: center;
+        background: rgba(196,122,58,0.14);
+        font-size: 1.4rem;
+    }
+    .feature-card h4 {
+        margin: 0;
+        font-size: 1.6rem;
+        color: var(--paw-brown);
+    }
+    .feature-card p {
+        margin: 0;
+        color: #6d5543;
+        line-height: 1.8;
+        font-weight: 600;
+    }
+
+    @media(max-width: 1100px) {
+        .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .featured-row { grid-template-columns: 1fr; }
+    }
+    @media(max-width: 720px) {
+        .page-wrapper { padding: 20px 16px 50px; }
+        .landing-hero { border-radius: 24px; padding: 50px 18px 30px; }
+        .hero-title { font-size: 3.6rem; }
+        .hero-description { font-size: 1rem; }
+        .hero-actions { flex-direction: column; }
+        .service-grid { grid-template-columns: 1fr; }
+        .featured-row { gap: 18px; }
+        .feature-main { min-height: 320px; }
     }
 </style>
 @endpush
 
 @section('content')
 <div class="page-wrapper">
-
-    <!-- Hero -->
-    <div class="hero-section">
-        <p style="font-weight:700; font-size:1.15rem; color:var(--paw-dark);">Welcome to</p>
-        <h1 class="hero-title">PawResort!</h1>
-        <p class="hero-subtitle">We take care of your Pets!</p>
-
-        <div style="position:relative; width:min(280px,80vw); height:200px; margin:0 auto 10px;">
-            <div style="font-size: clamp(90px, 28vw, 145px); line-height:1; text-align:center; animation: float 3s ease-in-out infinite; display:block;">🐶</div>
-            <div style="background: #5b8fa8; height: 58px; border-radius: 14px 14px 0 0; position:absolute; bottom:0; left:0; right:0; display:flex; align-items:center; justify-content:center;">
-                <a href="{{ route('login') }}" class="login-bone-btn">
-                    🦴 Login
-                </a>
+    <section class="landing-hero">
+        <div class="hero-content">
+            <p class="hero-tagline">Tempat kemewahan bertemu dengan kibasan ekor bahagia.</p>
+            <h1 class="hero-title">PawResort!</h1>
+            <p class="hero-description">Rasakan liburan terbaik untuk sahabat berbulu Anda di surga organik kami yang bebas stres.</p>
+            <div class="hero-actions">
+                <a href="{{ route('user.booking') }}" class="btn-paw">Pesan Sekarang</a>
+                <a href="{{ route('pawckage') }}" class="btn-outline-paw">Jelajahi Kamar</a>
             </div>
         </div>
-    </div>
-
-    <!-- Menu Cards (only visible when logged in) -->
-    @auth
-    <div class="menu-section">
-
-        @if(Auth::user()->role === 'admin')
-            <!-- Admin Menu -->
-            <a href="{{ route('admin.cage') }}" class="menu-card">
-                <div class="menu-card-text">
-                    <h3>Cage Monitor</h3>
-                    <p>Manage sanctuary units!</p>
-                </div>
-                <span class="menu-card-img">🏠</span>
-            </a>
-            <a href="{{ route('admin.payment') }}" class="menu-card">
-                <div class="menu-card-text">
-                    <h3>Payment</h3>
-                    <p>Validate transactions!</p>
-                </div>
-                <span class="menu-card-img">💳</span>
-            </a>
-        @else
-            <!-- User Menu -->
-            <a href="{{ route('user.booking') }}" class="menu-card">
-                <div class="menu-card-text">
-                    <h3>Booking</h3>
-                    <p>Let's have fun with us!</p>
-                </div>
-                <span class="menu-card-img">🐰</span>
-            </a>
-            <a href="{{ route('user.payment') }}" class="menu-card">
-                <div class="menu-card-text">
-                    <h3>Payment</h3>
-                    <p>Help us to comfort your pets!</p>
-                </div>
-                <span class="menu-card-img">🐱</span>
-            </a>
-            <a href="{{ route('pawckage') }}" class="menu-card">
-                <div class="menu-card-text">
-                    <h3>Pawckage</h3>
-                    <p>Choose purrfect treatment for your pets!</p>
-                </div>
-                <span class="menu-card-img">😺</span>
-            </a>
-            <a href="{{ route('user.register-pet') }}" class="menu-card">
-                <div class="menu-card-text">
-                    <h3>Register Pet</h3>
-                    <p>Do your other pets wanna play with us too?</p>
-                </div>
-                <span class="menu-card-img">🐕</span>
-            </a>
-        @endif
-    </div>
-    @endauth
-
-    @guest
-    <div class="menu-section">
-        <div class="text-center py-5" style="opacity:0.65;">
-            <p style="font-weight:700; font-size:1.1rem;">Please login to access features 🐾</p>
-            <a href="{{ route('login') }}" class="btn-paw btn px-5" style="font-size:1.1rem;">Login Now</a>
+        <div class="hero-graphic">
+            <span>🐶</span>
         </div>
-    </div>
-    @endguest
+    </section>
 
+    <section class="service-grid">
+        <div class="service-card">
+            <div class="service-card-icon">📅</div>
+            <h3>Reservasi</h3>
+            <p>Jadwalkan liburan impian hewan peliharaan Anda hanya dalam beberapa klik.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-card-icon">💳</div>
+            <h3>Pembayaran</h3>
+            <p>Manajemen transaksi yang aman, transparan, dan bebas repot.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-card-icon">🎁</div>
+            <h3>Paket Paw</h3>
+            <p>Paket kurasi termasuk hari spa dan suguhan gourmet.</p>
+        </div>
+        <div class="service-card">
+            <div class="service-card-icon">🐾</div>
+            <h3>Daftar Hewan</h3>
+            <p>Buat profil detail untuk kebutuhan unik sahabat Anda.</p>
+        </div>
+    </section>
 </div>
 @endsection

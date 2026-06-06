@@ -20,9 +20,13 @@
     justify-content:space-between;
     gap:24px;
 }
-.booking-info { flex:1; }
-.booking-name { font-family:'Baloo 2',cursive; font-size:1.7rem; font-weight:800; color:var(--paw-brown); }
-.booking-meta { font-size:1rem; color:#888; font-weight:700; margin-top:6px; line-height:1.9; }
+.booking-info {
+    flex:1;
+    font-size:1.5rem;
+    line-height:1.9;
+}
+.booking-name { font-family:'Baloo 2',cursive; font-size:1.85rem; font-weight:800; color:var(--paw-brown); }
+.booking-meta { font-size:1.3rem; color:#666; font-weight:700; margin-top:8px; line-height:2.1; }
 .action-btns { display:flex; gap:12px; flex-shrink:0; }
 .btn-confirm { background:var(--paw-green); color:#fff; border:none; border-radius:20px; padding:12px 28px; font-weight:800; font-size:1rem; cursor:pointer; transition:.2s; }
 .btn-confirm:hover { background:#3a9463; }
