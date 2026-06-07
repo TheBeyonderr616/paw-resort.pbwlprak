@@ -4,7 +4,12 @@
 
 @push('styles')
 <style>
-    .dashboard-page { padding: 32px 20px; }
+    .dashboard-page {
+        width: 80vw;
+        max-width: none;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
 
     .welcome-banner {
         background: linear-gradient(135deg, var(--paw-brown), #e8953a);
@@ -38,16 +43,16 @@
 
     .menu-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 18px;
+        grid-template-columns: 1fr;
+        gap: 24px;
         margin-bottom: 30px;
     }
 
     .menu-tile {
         background: #fff;
         border: 2px solid var(--paw-border);
-        border-radius: 24px;
-        padding: 28px 18px;
+        border-radius: 30px;
+        padding: 36px 26px;
         text-align: center;
         cursor: pointer;
         text-decoration: none;
@@ -61,51 +66,54 @@
         box-shadow: 0 12px 28px rgba(0,0,0,0.09);
     }
     .menu-tile .tile-emoji {
-        font-size: 3.4rem;
-        margin-bottom: 12px;
+        font-size: 4.6rem;
+        margin-bottom: 16px;
         display: block;
     }
     .menu-tile h4 {
         font-family: 'Baloo 2', cursive;
-        font-size: 1.35rem;
+        font-size: 1.7rem;
         font-weight: 800;
         color: var(--paw-brown);
-        margin: 0 0 6px;
+        margin: 0 0 10px;
     }
     .menu-tile p {
-        font-size: 0.92rem;
-        color: #888;
-        font-weight: 600;
+        font-size: 1.15rem;
+        color: #6f624f;
+        font-weight: 700;
         margin: 0;
     }
 
     .paw-card {
         background: #fff;
-        border-radius: 24px;
-        padding: 22px;
+        border-radius: 30px;
+        padding: 36px;
         border: 2px solid var(--paw-border);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+        box-shadow: 0 10px 28px rgba(0,0,0,0.05);
     }
 
     .pet-item {
         display: flex;
         align-items: center;
-        gap: 14px;
-        padding: 14px 16px;
-        border-radius: 16px;
+        gap: 18px;
+        padding: 20px 22px;
+        border-radius: 22px;
         background: var(--paw-cream);
-        margin-bottom: 12px;
+        margin-bottom: 16px;
         transition: 0.2s;
     }
     .pet-item:hover {
         transform: scale(1.01);
         background: #fff3e6;
     }
-    .pet-name { font-weight: 800; font-size: 1.05rem; }
-    .pet-breed { font-size: 0.9rem; color: #888; }
+    .pet-item span {
+        font-size: 3rem;
+    }
+    .pet-name { font-weight: 800; font-size: 1.35rem; }
+    .pet-breed { font-size: 1.05rem; color: #7a6a58; }
 
-    @media(min-width: 600px) {
-        .menu-grid { grid-template-columns: repeat(4, 1fr); }
+    @media(min-width: 900px) {
+        .menu-grid { grid-template-columns: repeat(2, 1fr); }
     }
 </style>
 @endpush

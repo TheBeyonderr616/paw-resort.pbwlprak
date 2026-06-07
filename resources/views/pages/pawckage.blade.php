@@ -7,8 +7,8 @@
     .pawckage-page { padding: 24px 16px; }
     .page-header { text-align: center; margin-bottom: 28px; }
     .page-subtitle { font-weight: 700; color: var(--paw-teal); font-size: 1rem; }
-    .paw-title { font-family:'Baloo 2',cursive; font-size:2.2rem; font-weight:800; color:var(--paw-brown); margin:0; }
-    .page-tagline { font-weight:700; color:var(--paw-teal); font-size:0.9rem; margin-top:4px; }
+    .paw-title { font-family:'Baloo 2',cursive; font-size:3rem; font-weight:800; color:var(--paw-brown); margin:0; }
+    .page-tagline { font-weight:700; color:var(--paw-teal); font-size:1.5rem; margin-top:4px; }
 
     .pkg-card {
         border: 2.5px solid var(--paw-border);
@@ -25,7 +25,7 @@
         padding: 12px 20px;
         font-family: 'Baloo 2', cursive;
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 1.7rem;
         letter-spacing: 0.3px;
     }
     .pkg-body { padding: 20px 22px; }
@@ -37,7 +37,7 @@
     }
     .pkg-paw { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
     .pkg-item p {
-        font-size: 0.88rem;
+        font-size: 1.3rem;
         font-weight: 600;
         color: #666;
         margin: 0;
