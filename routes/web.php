@@ -40,6 +40,7 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
 
     // Payment
     Route::get('/my-payments',   [UserController::class, 'payment'])->name('payment');
+    Route::post('/payment/{id}/upload', [UserController::class, 'uploadPaymentProof'])->name('payment.upload');
 
     // Pet CRUD
     Route::get('/register-pet',          [UserController::class, 'registerPetForm'])->name('register-pet');
@@ -50,11 +51,30 @@ Route::middleware('auth')->prefix('user')->name('user.')->group(function () {
 });
 
 // ── Admin Area ────────────────────────────────────────────
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard',  [AdminController::class, 'dashboard'])->name('dashboard');
 
-    // Cage (read-only monitor)
-    Route::get('/cage',       [AdminController::class, 'cage'])->name('cage');
+    // User CRUD
+    Route::get('/user',         [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('user.index');
+    Route::get('/user/{id}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('user.edit');
+    Route::put('/user/{id}',    [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/{id}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('user.destroy');
+
+    // Pet CRUD
+    Route::get('/pet',         [\App\Http\Controllers\Admin\PetController::class, 'index'])->name('pet.index');
+    Route::delete('/pet/{id}', [\App\Http\Controllers\Admin\PetController::class, 'destroy'])->name('pet.destroy');
+
+    // Booking Details
+    Route::get('/booking/{id}', [AdminController::class, 'showBooking'])->name('booking.show');
+
+    // Cage CRUD
+    Route::get('/cage',             [\App\Http\Controllers\Admin\CageController::class, 'index'])->name('cage.index');
+    Route::get('/cage/create',      [\App\Http\Controllers\Admin\CageController::class, 'create'])->name('cage.create');
+    Route::post('/cage',            [\App\Http\Controllers\Admin\CageController::class, 'store'])->name('cage.store');
+    Route::get('/cage/{id}',        [\App\Http\Controllers\Admin\CageController::class, 'show'])->name('cage.show');
+    Route::get('/cage/{id}/edit',   [\App\Http\Controllers\Admin\CageController::class, 'edit'])->name('cage.edit');
+    Route::put('/cage/{id}',        [\App\Http\Controllers\Admin\CageController::class, 'update'])->name('cage.update');
+    Route::delete('/cage/{id}',     [\App\Http\Controllers\Admin\CageController::class, 'destroy'])->name('cage.destroy');
 
     // Payment CRUD
     Route::get('/payment',    [AdminController::class, 'payment'])->name('payment');

@@ -70,6 +70,7 @@
     <div class="booking-info">
         <div class="booking-name">{{ $booking->user->name ?? 'Unknown' }}</div>
         <div class="booking-meta">
+            🐾 Pet: <strong>{{ $booking->pet->name ?? ($booking->pet_name ?? '-') }}</strong><br>
             📦 {{ ucfirst($booking->pawckage) }} Package<br>
             📅 {{ \Carbon\Carbon::parse($booking->reservation_date)->format('d M Y') }}<br>
             🏠 Cage: {{ $booking->cage->code ?? '-' }}<br>
@@ -79,6 +80,7 @@
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;">
         <span class="badge-{{ $booking->status }}">{{ ucfirst($booking->status) }}</span>
         <div class="action-btns">
+            <a href="{{ route('admin.booking.show', $booking->id) }}" class="btn-paw-sm" style="padding: 10px 18px; margin-right: 5px;">View Details</a>
             @if($booking->status === 'pending')
                 <form method="POST" action="{{ route('admin.payment.confirm', $booking->id) }}">
                     @csrf @method('PATCH')

@@ -56,17 +56,30 @@
             @if($booking->cage)
                 <div class="booking-meta" style="margin-top:2px;">🏠 Cage: {{ $booking->cage->code }}</div>
             @endif
+            @if($booking->pet)
+                <div class="booking-meta" style="margin-top:2px;">🐾 Pet: {{ $booking->pet->name }}</div>
+            @endif
         </div>
     </div>
     <div class="booking-right">
         <span class="badge-{{ $booking->status }}">{{ ucfirst($booking->status) }}</span>
 
         @if($booking->status === 'pending')
-        <form method="POST" action="{{ route('user.booking.cancel', $booking->id) }}"
-            onsubmit="return confirm('Cancel this booking?')">
-            @csrf @method('PATCH')
-            <button type="submit" class="btn-danger-sm">Cancel</button>
-        </form>
+            @if(!$booking->payment_proof)
+                <form method="POST" action="{{ route('user.payment.upload', $booking->id) }}" enctype="multipart/form-data" class="mt-2">
+                    @csrf
+                    <input type="file" name="payment_proof" id="file-{{ $booking->id }}" class="d-none" onchange="this.form.submit()">
+                    <button type="button" class="btn-paw-sm" onclick="document.getElementById('file-{{ $booking->id }}').click()">Upload Proof</button>
+                </form>
+            @else
+                <span style="font-size:0.8rem; color:var(--paw-green); font-weight:700;" class="mt-2">Proof uploaded ✅</span>
+            @endif
+
+            <form method="POST" action="{{ route('user.booking.cancel', $booking->id) }}"
+                onsubmit="return confirm('Cancel this booking?')" class="mt-2">
+                @csrf @method('PATCH')
+                <button type="submit" class="btn-danger-sm">Cancel</button>
+            </form>
         @endif
     </div>
 </div>

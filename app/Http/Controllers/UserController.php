@@ -20,17 +20,24 @@ class UserController extends Controller
     // ── Booking ───────────────────────────────────────────────
     public function booking()
     {
-        $cages = Cage::where('status', 'available')->get();
-        return view('user.booking', compact('cages'));
+        $cages = Cage::orderBy('code')->get();
+        $pets  = Pet::where('user_id', Auth::id())->get();
+        return view('user.booking', compact('cages', 'pets'));
     }
 
     public function storeBooking(Request $request)
     {
         $request->validate([
+            'pet_id'           => 'required|exists:pets,id',
             'reservation_date' => 'required|date|after_or_equal:today',
             'pawckage'         => 'required|in:daily,weekly,vip',
             'cage_id'          => 'required|exists:cages,id',
         ]);
+
+        $cage = Cage::find($request->cage_id);
+        if (!$cage || $cage->status !== 'available') {
+            return back()->with('error', 'Cage tidak tersedia (sudah ditempati atau di-lock).');
+        }
 
         $exists = Booking::where('cage_id', $request->cage_id)
             ->where('reservation_date', $request->reservation_date)
@@ -41,15 +48,26 @@ class UserController extends Controller
             return back()->with('error', 'Cage sudah dipakai di tanggal ini.');
         }
 
+        // Check if user already has an active booking on this date
+        $userHasBooking = Booking::where('user_id', Auth::id())
+            ->where('reservation_date', $request->reservation_date)
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->exists();
+
+        if ($userHasBooking) {
+            return back()->with('error', 'Anda sudah memiliki booking aktif di tanggal ini.');
+        }
+
         Booking::create([
             'user_id'          => Auth::id(),
+            'pet_id'           => $request->pet_id,
             'cage_id'          => $request->cage_id,
             'reservation_date' => $request->reservation_date,
             'pawckage'         => $request->pawckage,
             'status'           => 'pending',
         ]);
 
-        Cage::where('id', $request->cage_id)->update(['status' => 'occupied']);
+        $cage->update(['status' => 'occupied']);
 
         return redirect()->route('user.payment')->with('success', 'Booking berhasil! 🐾');
     }
@@ -58,7 +76,7 @@ class UserController extends Controller
     public function cancelBooking($id)
     {
         $booking = Booking::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
-        $booking->update(['status' => 'declined']);
+        $booking->update(['status' => 'cancelled']);
 
         if ($booking->cage_id) {
             Cage::where('id', $booking->cage_id)->update(['status' => 'available']);
@@ -70,12 +88,28 @@ class UserController extends Controller
     // ── Payment ───────────────────────────────────────────────
     public function payment()
     {
-        $bookings = Booking::with('cage')
+        $bookings = Booking::with('cage', 'pet')
             ->where('user_id', Auth::id())
             ->orderByDesc('created_at')
             ->paginate(10);
 
         return view('user.payment', compact('bookings'));
+    }
+
+    public function uploadPaymentProof(Request $request, $id)
+    {
+        $request->validate([
+            'payment_proof' => 'required|image|max:2048',
+        ]);
+
+        $booking = Booking::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
+
+        if ($request->hasFile('payment_proof')) {
+            $path = $request->file('payment_proof')->store('payments', 'public');
+            $booking->update(['payment_proof' => $path]);
+        }
+
+        return back()->with('success', 'Bukti pembayaran berhasil di-upload! Admin akan segera memverifikasi.');
     }
 
     // ── Register Pet (CREATE + READ) ──────────────────────────

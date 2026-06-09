@@ -10,6 +10,15 @@
         margin: 0 auto;
         padding: 40px 20px;
     }
+    @media(max-width: 768px) {
+        .dashboard-page { width: 95vw; padding: 20px 10px; }
+        .welcome-banner { padding: 25px 20px; border-radius: 20px; }
+        .welcome-banner h2 { font-size: 1.6rem; }
+        .menu-tile { padding: 20px 10px; border-radius: 20px; }
+        .menu-tile .tile-emoji { font-size: 2.5rem; }
+        .menu-tile h4 { font-size: 1.2rem; }
+        .menu-tile p { font-size: 0.95rem; }
+    }
 
     .welcome-banner {
         background: linear-gradient(135deg, var(--paw-brown), #e8953a);

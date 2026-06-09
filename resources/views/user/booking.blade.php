@@ -12,17 +12,15 @@
     margin: auto;
     box-sizing: border-box;
 }
-/* Increase base font size for this page so all rem-based fonts scale up */
-.booking-page { font-size: 24px; }
-/* Make page title more prominent */
-.page-title { font-size: 4.2rem; }
-.page-tagline { font-size: 1.4rem; }
-.label { font-size: 1.4rem; }
-.select, .input { font-size: 1.2rem; }
-.btn-submit { font-size: 1.35rem; }
-.cage-picker-title { font-size: 1.4rem; }
-.cage-cell { font-size: 1.15rem; }
-.cage-legend { font-size: 1rem; }
+/* page title */
+.page-title { font-size: 2.8rem; }
+.page-tagline { font-size: 1.1rem; }
+.label { font-size: 1.1rem; }
+.select, .input { font-size: 1rem; }
+.btn-submit { font-size: 1.25rem; }
+.cage-picker-title { font-size: 1.35rem; }
+.cage-cell { font-size: 1.1rem; }
+.cage-legend { font-size: 0.9rem; }
 /* Make all direct divs inside booking-page occupy 100% (which equals 80vw)
    so visually every section fills ~80% of the viewport */
 .booking-page > div,
@@ -129,6 +127,12 @@
     cursor: not-allowed;
     opacity: 0.6;
 }
+.cage-cell.locked {
+    background: #e0e0e0;
+    color: #888;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
 .cage-cell.selected {
     background: var(--paw-brown);
     color: #fff;
@@ -169,6 +173,28 @@
     <form method="POST" action="{{ route('user.booking.store') }}">
         @csrf
 
+        {{-- PET SELECTION --}}
+        <div class="card-box">
+            <label class="label">🐾 Choose Your Pet</label>
+            @if($pets->isEmpty())
+                <p style="color:orange; font-weight:700;">You haven't registered any pets yet! 
+                    <a href="{{ route('user.register-pet') }}" style="color:var(--paw-brown);">Register now</a>
+                </p>
+            @else
+                <select name="pet_id" class="select" required>
+                    <option value="">-- Select Your Pet --</option>
+                    @foreach($pets as $pet)
+                        <option value="{{ $pet->id }}" {{ old('pet_id') == $pet->id ? 'selected' : '' }}>
+                            {{ $pet->name }} ({{ $pet->breed }})
+                        </option>
+                    @endforeach
+                </select>
+            @endif
+            @error('pet_id')
+                <div style="color:red; font-size:0.88rem; margin-top:6px;">{{ $message }}</div>
+            @enderror
+        </div>
+
         {{-- RESERVATION DATE --}}
         <div class="card-box">
             <label class="label">📅 Reservation Date</label>
@@ -191,11 +217,14 @@
 
             <div class="cage-grid" id="cageGrid">
                 @foreach($cages as $cage)
-                    @php $isOccupied = $cage->status !== 'available'; @endphp
-                    <div class="cage-cell {{ $isOccupied ? 'occupied' : 'available' }}"
+                    @php 
+                        $status = $cage->status ?? 'available';
+                        $statusClass = ($status === 'available') ? 'available' : (($status === 'locked') ? 'locked' : 'occupied');
+                    @endphp
+                    <div class="cage-cell {{ $statusClass }}"
                         data-id="{{ $cage->id }}"
-                        data-occupied="{{ $isOccupied ? 'true' : 'false' }}"
-                        onclick="selectCage(this, {{ $cage->id }}, {{ $isOccupied ? 'true' : 'false' }})">
+                        data-status="{{ $status }}"
+                        onclick="selectCage(this, {{ $cage->id }}, '{{ $status }}')">
                         {{ $cage->code ?? $loop->iteration }}
                     </div>
                 @endforeach
@@ -204,6 +233,7 @@
             <div class="cage-legend">
                 <span><span class="legend-dot" style="background:#c8f0c8;"></span>Available</span>
                 <span><span class="legend-dot" style="background:#f0c8c8;"></span>Occupied</span>
+                <span><span class="legend-dot" style="background:#e0e0e0;"></span>Maintenance/Locked</span>
                 <span><span class="legend-dot" style="background:var(--paw-brown);"></span>Selected</span>
             </div>
 
@@ -244,8 +274,8 @@
 <script>
     let selectedCell = null;
 
-    function selectCage(el, cageId, isOccupied) {
-        if (isOccupied) return;
+    function selectCage(el, cageId, status) {
+        if (status !== 'available') return;
 
         // Deselect previous
         if (selectedCell) {

@@ -182,6 +182,8 @@
     .badge-pending  { background:#fff4d6; color:#8a6d1d; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
     .badge-confirmed{ background:#d7f5e6; color:#146c43; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
     .badge-declined { background:#ffe0e3; color:#a61b29; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
+    .badge-cancelled{ background:#eee; color:#666; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
+    .badge-locked   { background:#ffebee; color:#c62828; border-radius:20px; padding:5px 14px; font-weight:800; font-size:.9rem; }
 
     /* ── ALERT ── */
     .paw-alert { border-radius: 16px; font-weight: 700; padding: 16px 22px; font-size: 1rem; }

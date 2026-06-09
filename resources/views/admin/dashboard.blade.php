@@ -5,6 +5,14 @@
 @push('styles')
 <style>
     .dashboard-page { padding: 32px 20px; }
+    @media(max-width: 768px) {
+        .dashboard-page { padding: 20px 15px; }
+        .welcome-banner { padding: 25px 20px; border-radius: 20px; }
+        .welcome-banner h2 { font-size: 1.6rem; }
+        .menu-tile { padding: 20px 10px; border-radius: 20px; }
+        .menu-tile .tile-emoji { font-size: 2.5rem; }
+        .menu-tile h4 { font-size: 1.1rem; }
+    }
     .welcome-banner {
         background: linear-gradient(135deg, #5b8fa8, #e8953a);
         border-radius: 26px;
@@ -36,6 +44,9 @@
         gap: 18px;
         margin-bottom: 28px;
     }
+    @media(min-width: 768px) {
+        .menu-grid { grid-template-columns: repeat(4, 1fr); }
+    }
     .menu-tile {
         background: #fff;
         border: 2.5px solid var(--paw-border);
@@ -63,6 +74,37 @@
         margin: 0 0 6px;
     }
     .menu-tile p { font-size: 0.92rem; color: #888; font-weight: 600; margin: 0; }
+
+    .stats-row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-bottom: 30px;
+    }
+    @media(min-width: 768px) {
+        .stats-row { grid-template-columns: repeat(4, 1fr); }
+    }
+    .stat-card {
+        background: #fff;
+        border: 2px solid var(--paw-border);
+        border-radius: 22px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        background: #fef4e8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+    .stat-info .label { font-size: 0.85rem; font-weight: 800; color: #888; }
+    .stat-info .value { font-family: 'Baloo 2', cursive; font-size: 1.4rem; font-weight: 800; color: var(--paw-brown); }
 </style>
 @endpush
 
@@ -77,17 +119,60 @@
         <p style="font-size:0.9rem; margin-top:8px; opacity:0.85;">Manage sanctuary units and transactions</p>
     </div>
 
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-info">
+                <div class="label">Total Users</div>
+                <div class="value">{{ $stats['users'] }}</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🐾</div>
+            <div class="stat-info">
+                <div class="label">Total Pets</div>
+                <div class="value">{{ $stats['pets'] }}</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-info">
+                <div class="label">Active Bookings</div>
+                <div class="value">{{ $stats['bookings'] }}</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⏳</div>
+            <div class="stat-info">
+                <div class="label">Pending Payments</div>
+                <div class="value">{{ $stats['pending'] }}</div>
+            </div>
+        </div>
+    </div>
+
     <div class="menu-grid">
-        <a href="{{ route('admin.cage') }}" class="menu-tile">
+        <a href="{{ route('admin.user.index') }}" class="menu-tile">
+            <span class="tile-emoji">👥</span>
+            <h4>Manage Users</h4>
+            <p>Admin & Customers</p>
+        </a>
+
+        <a href="{{ route('admin.pet.index') }}" class="menu-tile">
+            <span class="tile-emoji">🐾</span>
+            <h4>Manage Pets</h4>
+            <p>All client animals</p>
+        </a>
+
+        <a href="{{ route('admin.cage.index') }}" class="menu-tile">
             <span class="tile-emoji">🏠</span>
-            <h4>Cage Monitor</h4>
-            <p>View sanctuary status!</p>
+            <h4>Cage Units</h4>
+            <p>Manage sanctuary status</p>
         </a>
 
         <a href="{{ route('admin.payment') }}" class="menu-tile">
             <span class="tile-emoji">💳</span>
-            <h4>Payment Validation</h4>
-            <p>Validate transactions!</p>
+            <h4>Payments</h4>
+            <p>Validate transactions</p>
         </a>
     </div>
 
