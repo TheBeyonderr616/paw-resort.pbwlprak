@@ -72,7 +72,7 @@
         <div class="booking-meta">
             🐾 Pet: <strong>{{ $booking->pet->name ?? ($booking->pet_name ?? '-') }}</strong><br>
             📦 {{ ucfirst($booking->pawckage) }} Package<br>
-            📅 {{ \Carbon\Carbon::parse($booking->reservation_date)->format('d M Y') }}<br>
+            📅 {{ \Carbon\Carbon::parse($booking->reservation_date)->format('d M Y') }}{{ $booking->end_date ? ' - ' . \Carbon\Carbon::parse($booking->end_date)->format('d M Y') : '' }}<br>
             🏠 Cage: {{ $booking->cage->code ?? '-' }}<br>
             🕐 Booked: {{ $booking->created_at->format('d M Y H:i') }}
         </div>

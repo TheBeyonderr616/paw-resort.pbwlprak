@@ -38,6 +38,13 @@
 
     <h1 class="page-title">🎟️ Booking Details #{{ $booking->id }}</h1>
 
+    @if(session('success'))
+        <div class="alert alert-success rounded-4 mb-3" style="font-weight:700;">{{ session('success') }}</div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger rounded-4 mb-3" style="font-weight:700;">{{ session('error') }}</div>
+    @endif
+
     <div class="status-banner badge-{{ $booking->status }}">
         Status: {{ ucfirst($booking->status) }}
     </div>
@@ -69,20 +76,42 @@
             <h3>🏠 Reservation Info</h3>
             <div class="info-grid">
                 <div class="info-label">Date:</div>
-                <div class="info-value">{{ $booking->reservation_date->format('l, d M Y') }}</div>
+                <div class="info-value">
+                    {{ $booking->reservation_date->format('l, d M Y') }}
+                    @if($booking->end_date)
+                        - {{ $booking->end_date->format('l, d M Y') }}
+                    @endif
+                </div>
                 <div class="info-label">Package:</div>
-                <div class="info-value">{{ ucfirst($booking->pawckage) }}</div>
+                <div class="info-value">
+                    @if($booking->status === 'pending')
+                        <form action="{{ route('admin.booking.update-package', $booking->id) }}" method="POST" style="display:inline-flex; gap:10px; align-items:center;">
+                            @csrf @method('PATCH')
+                            <select name="pawckage" class="form-select" style="font-size:0.9rem; padding:4px 8px; border-radius:8px;" onchange="this.form.submit()">
+                                <option value="daily" {{ $booking->pawckage === 'daily' ? 'selected' : '' }}>Daily</option>
+                                <option value="weekly" {{ $booking->pawckage === 'weekly' ? 'selected' : '' }}>Weekly</option>
+                                <option value="vip" {{ $booking->pawckage === 'vip' ? 'selected' : '' }}>VIP</option>
+                            </select>
+                            <span style="font-size:0.8rem; color:#888;">(Auto-save)</span>
+                        </form>
+                    @else
+                        {{ ucfirst($booking->pawckage) }}
+                    @endif
+                </div>
                 <div class="info-label">Cage:</div>
-                <div class="info-value">{{ $booking->cage->code }} ({{ $booking->cage->name }})</div>
+                <div class="info-value">{{ $booking->cage->code }} ({{ $booking->cage->name }}) [{{ ucfirst($booking->cage->type) }}]</div>
             </div>
         </div>
 
         <div class="info-section">
             <h3>💳 Payment Proof</h3>
             @if($booking->payment_proof)
-                <img src="{{ asset($booking->payment_proof) }}" alt="Payment Proof" class="payment-proof">
+                <img src="{{ \Illuminate\Support\Facades\Storage::url($booking->payment_proof) }}" 
+                     alt="Payment Proof" 
+                     class="payment-proof"
+                     style="max-width:100%; border-radius:14px; border:2px solid #e0cbb8; margin-top:10px;">
             @else
-                <div class="info-value" style="color:#888;">No payment proof uploaded yet.</div>
+                <div style="color:#888; font-weight:700;">No payment proof uploaded yet.</div>
             @endif
         </div>
     </div>

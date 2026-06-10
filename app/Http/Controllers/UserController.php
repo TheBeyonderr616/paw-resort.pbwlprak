@@ -18,11 +18,12 @@ class UserController extends Controller
     }
 
     // ── Booking ───────────────────────────────────────────────
-    public function booking()
+    public function booking(Request $request)
     {
+        $selectedPackage = $request->query('pawckage');
         $cages = Cage::orderBy('code')->get();
         $pets  = Pet::where('user_id', Auth::id())->get();
-        return view('user.booking', compact('cages', 'pets'));
+        return view('user.booking', compact('cages', 'pets', 'selectedPackage'));
     }
 
     public function storeBooking(Request $request)
@@ -39,30 +40,72 @@ class UserController extends Controller
             return back()->with('error', 'Cage tidak tersedia (sudah ditempati atau di-lock).');
         }
 
+        // Validate Cage Type vs Package
+        if ($request->pawckage === 'vip' && $cage->type !== 'vip') {
+            return back()->with('error', 'Package VIP hanya bisa untuk Cage tipe VIP.');
+        }
+        if ($request->pawckage !== 'vip' && $cage->type === 'vip') {
+            return back()->with('error', 'Cage VIP hanya untuk package VIP.');
+        }
+
+        // Calculate end date based on package
+        $days = ($request->pawckage === 'weekly') ? 7 : 1;
+        $startDate = $request->reservation_date;
+        $endDate = date('Y-m-d', strtotime($startDate . " + " . ($days - 1) . " days"));
+
+        // Overlap check
         $exists = Booking::where('cage_id', $request->cage_id)
-            ->where('reservation_date', $request->reservation_date)
             ->whereIn('status', ['pending', 'confirmed'])
+            ->where(function ($query) use ($startDate, $endDate) {
+                $query->where(function ($q) use ($startDate, $endDate) {
+                    $q->where('reservation_date', '<=', $endDate)
+                      ->where('end_date', '>=', $startDate);
+                })
+                ->orWhere(function ($q) use ($startDate, $endDate) {
+                    // Fallback for old records without end_date (assuming 1 day)
+                    $q->whereNull('end_date')
+                      ->where('reservation_date', '>=', $startDate)
+                      ->where('reservation_date', '<=', $endDate);
+                });
+            })
             ->exists();
 
         if ($exists) {
-            return back()->with('error', 'Cage sudah dipakai di tanggal ini.');
+            return back()->with('error', 'Cage sudah dipakai di rentang tanggal ini.');
         }
 
-        // Check if user already has an active booking on this date
+        // Check if user already has an active booking that overlaps
         $userHasBooking = Booking::where('user_id', Auth::id())
-            ->where('reservation_date', $request->reservation_date)
             ->whereIn('status', ['pending', 'confirmed'])
+            ->where(function ($query) use ($startDate, $endDate) {
+                $query->where(function ($q) use ($startDate, $endDate) {
+                    $q->where('reservation_date', '<=', $endDate)
+                      ->where('end_date', '>=', $startDate);
+                })
+                ->orWhere(function ($q) use ($startDate, $endDate) {
+                    $q->whereNull('end_date')
+                      ->where('reservation_date', '>=', $startDate)
+                      ->where('reservation_date', '<=', $endDate);
+                });
+            })
             ->exists();
 
         if ($userHasBooking) {
-            return back()->with('error', 'Anda sudah memiliki booking aktif di tanggal ini.');
+            return back()->with('error', 'Anda sudah memiliki booking aktif yang overlap dengan rentang tanggal ini.');
         }
+
+        $pet = Pet::find($request->pet_id);
 
         Booking::create([
             'user_id'          => Auth::id(),
             'pet_id'           => $request->pet_id,
             'cage_id'          => $request->cage_id,
+            'pet_name'         => $pet->name,
+            'pet_type'         => $pet->type,
+            'breed'            => $pet->breed,
+            'pet_photo'        => $pet->photo,
             'reservation_date' => $request->reservation_date,
+            'end_date'         => $endDate,
             'pawckage'         => $request->pawckage,
             'status'           => 'pending',
         ]);
@@ -79,7 +122,15 @@ class UserController extends Controller
         $booking->update(['status' => 'cancelled']);
 
         if ($booking->cage_id) {
-            Cage::where('id', $booking->cage_id)->update(['status' => 'available']);
+            // Check if there are any other active bookings for this cage
+            $hasActive = Booking::where('cage_id', $booking->cage_id)
+                ->where('id', '!=', $booking->id)
+                ->whereIn('status', ['pending', 'confirmed'])
+                ->exists();
+            
+            if (!$hasActive) {
+                Cage::where('id', $booking->cage_id)->update(['status' => 'available']);
+            }
         }
 
         return back()->with('success', 'Booking cancelled. 🐾');
@@ -106,9 +157,9 @@ class UserController extends Controller
 
         if ($request->hasFile('payment_proof')) {
             $file = $request->file('payment_proof');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('payments'), $filename);
-            $booking->update(['payment_proof' => 'payments/' . $filename]);
+            // Secure upload using hashName and store
+            $path = $file->store('payments', 'public');
+            $booking->update(['payment_proof' => $path]);
         }
 
         return back()->with('success', 'Bukti pembayaran berhasil di-upload! Admin akan segera memverifikasi.');

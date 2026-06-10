@@ -82,5 +82,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/payment',    [AdminController::class, 'payment'])->name('payment');
     Route::patch('/payment/{id}/confirm', [AdminController::class, 'confirmPayment'])->name('payment.confirm');
     Route::patch('/payment/{id}/decline', [AdminController::class, 'declinePayment'])->name('payment.decline');
+    Route::patch('/booking/{id}/update-package', [AdminController::class, 'updatePackage'])->name('booking.update-package');
     Route::delete('/booking/{id}',        [AdminController::class, 'destroyBooking'])->name('booking.destroy');
 });

@@ -13,7 +13,12 @@ class Booking extends Model
         'user_id',
         'pet_id',
         'cage_id',
+        'pet_name',
+        'pet_type',
+        'breed',
+        'pet_photo',
         'reservation_date',
+        'end_date',
         'pawckage',
         'status',
         'payment_proof',
@@ -21,6 +26,7 @@ class Booking extends Model
 
     protected $casts = [
         'reservation_date' => 'date',
+        'end_date'         => 'date',
     ];
 
     public function user()

@@ -104,6 +104,7 @@
     aspect-ratio: 1;
     border-radius: 12px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     font-size: 1.6rem;
@@ -139,8 +140,29 @@
     border-color: #8a5010;
     transform: scale(1.1);
 }
+.cage-cell.vip-cage {
+    border: 3px solid #ffd700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+.cage-cell.vip-cage::after {
+    content: 'VIP';
+    font-size: 0.7rem;
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    color: #b8860b;
+}
+.cage-cell.selected.vip-cage::after {
+    color: #fff;
+}
+.cage-cell.dimmed {
+    opacity: 0.3;
+    filter: grayscale(80%);
+}
+
 .cage-legend {
     display: flex;
+    flex-wrap: wrap;
     gap: 16px;
     font-size: 0.88rem;
     font-weight: 700;
@@ -153,6 +175,7 @@
     display: inline-block;
     margin-right: 5px;
 }
+.legend-item { display: flex; align-items: center; }
 </style>
 @endpush
 
@@ -200,8 +223,22 @@
             <label class="label">📅 Reservation Date</label>
             <input type="date" name="reservation_date" class="input"
                 min="{{ date('Y-m-d') }}" required
-                value="{{ old('reservation_date') }}">
+                value="{{ old('reservation_date', date('Y-m-d')) }}">
             @error('reservation_date')
+                <div style="color:red; font-size:0.88rem; margin-top:6px;">{{ $message }}</div>
+            @enderror
+        </div>
+
+        {{-- PACKAGE --}}
+        <div class="card-box">
+            <label class="label">📦 Package</label>
+            <select name="pawckage" id="packageSelect" class="select" required onchange="filterCages()">
+                <option value="">-- Select Package --</option>
+                <option value="daily" {{ (old('pawckage') ?? $selectedPackage) == 'daily' ? 'selected' : '' }}>Daily (Standard Cage)</option>
+                <option value="weekly" {{ (old('pawckage') ?? $selectedPackage) == 'weekly' ? 'selected' : '' }}>Weekly (Standard Cage)</option>
+                <option value="vip" {{ (old('pawckage') ?? $selectedPackage) == 'vip' ? 'selected' : '' }}>VIP (VIP Cage)</option>
+            </select>
+            @error('pawckage')
                 <div style="color:red; font-size:0.88rem; margin-top:6px;">{{ $message }}</div>
             @enderror
         </div>
@@ -209,8 +246,8 @@
         {{-- CAGE PICKER (USER PILIH SENDIRI) --}}
         <div class="card-box cage-card">
             <div class="cage-picker-title">🏠 Choose Your Cage</div>
-            <p style="font-size:0.95rem; color:#888; font-weight:600; margin-bottom:12px;">
-                Click an available cage (green) to select it
+            <p id="cageHint" style="font-size:0.95rem; color:#888; font-weight:600; margin-bottom:12px;">
+                Please select a package first
             </p>
 
             <input type="hidden" name="cage_id" id="selectedCageId" required>
@@ -220,21 +257,24 @@
                     @php 
                         $status = $cage->status ?? 'available';
                         $statusClass = ($status === 'available') ? 'available' : (($status === 'locked') ? 'locked' : 'occupied');
+                        $typeClass = ($cage->type === 'vip') ? 'vip-cage' : 'standard-cage';
                     @endphp
-                    <div class="cage-cell {{ $statusClass }}"
+                    <div class="cage-cell {{ $statusClass }} {{ $typeClass }}"
                         data-id="{{ $cage->id }}"
                         data-status="{{ $status }}"
-                        onclick="selectCage(this, {{ $cage->id }}, '{{ $status }}')">
-                        {{ $cage->code ?? $loop->iteration }}
+                        data-type="{{ $cage->type }}"
+                        onclick="selectCage(this, {{ $cage->id }}, '{{ $status }}', '{{ $cage->type }}')">
+                        <span class="cage-code">{{ $cage->code ?? $loop->iteration }}</span>
                     </div>
                 @endforeach
             </div>
 
             <div class="cage-legend">
-                <span><span class="legend-dot" style="background:#c8f0c8;"></span>Available</span>
-                <span><span class="legend-dot" style="background:#f0c8c8;"></span>Occupied</span>
-                <span><span class="legend-dot" style="background:#e0e0e0;"></span>Maintenance/Locked</span>
-                <span><span class="legend-dot" style="background:var(--paw-brown);"></span>Selected</span>
+                <div class="legend-item"><span class="legend-dot" style="background:#c8f0c8;"></span>Available</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#f0c8c8;"></span>Occupied</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#e0e0e0;"></span>Maintenance</div>
+                <div class="legend-item"><span class="legend-dot" style="background:var(--paw-brown);"></span>Selected</div>
+                <div class="legend-item"><span class="legend-dot" style="border:2px solid #ffd700; background:#fff;"></span>VIP Cage</div>
             </div>
 
             <div id="selectedCageLabel" style="margin-top:12px; font-weight:700; font-size:1rem; color:var(--paw-brown); display:none;">
@@ -242,20 +282,6 @@
             </div>
 
             @error('cage_id')
-                <div style="color:red; font-size:0.88rem; margin-top:6px;">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- PACKAGE --}}
-        <div class="card-box">
-            <label class="label">📦 Package</label>
-            <select name="pawckage" class="select" required>
-                <option value="">-- Select Package --</option>
-                <option value="daily" {{ old('pawckage') == 'daily' ? 'selected' : '' }}>Daily</option>
-                <option value="weekly" {{ old('pawckage') == 'weekly' ? 'selected' : '' }}>Weekly</option>
-                <option value="vip" {{ old('pawckage') == 'vip' ? 'selected' : '' }}>VIP</option>
-            </select>
-            @error('pawckage')
                 <div style="color:red; font-size:0.88rem; margin-top:6px;">{{ $message }}</div>
             @enderror
         </div>
@@ -274,17 +300,31 @@
 <script>
     let selectedCell = null;
 
-    function selectCage(el, cageId, status) {
+    function selectCage(el, cageId, status, type) {
         if (status !== 'available') return;
+        
+        const selectedPkg = document.getElementById('packageSelect').value;
+        if (!selectedPkg) {
+            alert('Please select a package first!');
+            return;
+        }
+
+        // Validate type against package
+        if (selectedPkg === 'vip' && type !== 'vip') {
+            alert('VIP package requires a VIP cage!');
+            return;
+        }
+        if (selectedPkg !== 'vip' && type === 'vip') {
+            alert('Daily/Weekly packages require a Standard cage!');
+            return;
+        }
 
         // Deselect previous
         if (selectedCell) {
             selectedCell.classList.remove('selected');
-            selectedCell.classList.add('available');
         }
 
         // Select new
-        el.classList.remove('available');
         el.classList.add('selected');
         selectedCell = el;
 
@@ -293,8 +333,50 @@
 
         // Show label
         const label = document.getElementById('selectedCageLabel');
-        document.getElementById('cageName').textContent = el.textContent.trim();
+        document.getElementById('cageName').textContent = el.querySelector('.cage-code').textContent.trim();
         label.style.display = 'block';
     }
+
+    function filterCages() {
+        const pkg = document.getElementById('packageSelect').value;
+        const cages = document.querySelectorAll('.cage-cell');
+        const hint = document.getElementById('cageHint');
+
+        if (!pkg) {
+            hint.textContent = 'Please select a package first';
+            cages.forEach(c => c.classList.remove('dimmed'));
+            return;
+        }
+
+        hint.textContent = pkg === 'vip' ? 'Showing VIP cages' : 'Showing Standard cages';
+
+        cages.forEach(c => {
+            const type = c.getAttribute('data-type');
+            if (pkg === 'vip') {
+                if (type === 'vip') {
+                    c.classList.remove('dimmed');
+                } else {
+                    c.classList.add('dimmed');
+                }
+            } else {
+                if (type === 'standard') {
+                    c.classList.remove('dimmed');
+                } else {
+                    c.classList.add('dimmed');
+                }
+            }
+        });
+
+        // Reset selection if it's now dimmed
+        if (selectedCell && selectedCell.classList.contains('dimmed')) {
+            selectedCell.classList.remove('selected');
+            selectedCell = null;
+            document.getElementById('selectedCageId').value = '';
+            document.getElementById('selectedCageLabel').style.display = 'none';
+        }
+    }
+
+    // Run on load
+    document.addEventListener('DOMContentLoaded', filterCages);
 </script>
 @endpush

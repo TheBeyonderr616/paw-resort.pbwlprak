@@ -83,9 +83,15 @@
                 <span class="pkg-paw">🐾</span>
                 <p>purrfect for those with a busy daily routine!</p>
             </div>
-            <a href="{{ route('user.booking') }}?pawckage=daily" class="btn-paw btn select-pkg-btn">
-                Select Daily 🐾
-            </a>
+            @auth
+                <a href="{{ route('user.booking') }}?pawckage=daily" class="btn-paw btn select-pkg-btn">
+                    Select Daily 🐾
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="btn-outline-paw btn select-pkg-btn">
+                    Login to Select 🐾
+                </a>
+            @endauth
         </div>
     </div>
 
@@ -104,9 +110,15 @@
                 <span class="pkg-paw">🐾</span>
                 <p>purrfect for those on vacation!</p>
             </div>
-            <a href="{{ route('user.booking') }}?pawckage=weekly" class="btn-paw btn select-pkg-btn">
-                Select Weekly 🐾
-            </a>
+            @auth
+                <a href="{{ route('user.booking') }}?pawckage=weekly" class="btn-paw btn select-pkg-btn">
+                    Select Weekly 🐾
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="btn-outline-paw btn select-pkg-btn">
+                    Login to Select 🐾
+                </a>
+            @endauth
         </div>
     </div>
 
@@ -125,9 +137,15 @@
                 <span class="pkg-paw">🐾</span>
                 <p>purrfect for pets that need extra attention!</p>
             </div>
-            <a href="{{ route('user.booking') }}?pawckage=vip" class="btn-paw btn select-pkg-btn">
-                Select VIP ✨
-            </a>
+            @auth
+                <a href="{{ route('user.booking') }}?pawckage=vip" class="btn-paw btn select-pkg-btn">
+                    Select VIP ✨
+                </a>
+            @else
+                <a href="{{ route('login') }}" class="btn-outline-paw btn select-pkg-btn">
+                    Login to Select ✨
+                </a>
+            @endauth
         </div>
     </div>
 

@@ -6,24 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->foreignId('pet_id')->nullable()->after('user_id')->constrained()->onDelete('set null');
+            $table->date('end_date')->nullable()->after('reservation_date');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->dropForeign(['pet_id']);
-            $table->dropColumn('pet_id');
+            $table->dropColumn('end_date');
         });
     }
 };
