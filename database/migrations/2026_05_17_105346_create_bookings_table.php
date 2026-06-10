@@ -15,6 +15,11 @@ return new class extends Migration
                 ->constrained()
                 ->onDelete('cascade');
 
+            $table->foreignId('pet_id')
+                ->nullable()
+                ->constrained()
+                ->onDelete('set null');
+
             $table->foreignId('cage_id')
                 ->constrained()
                 ->onDelete('cascade');
@@ -29,8 +34,8 @@ return new class extends Migration
             $table->enum('pawckage', ['daily', 'weekly', 'vip'])
                 ->default('daily');
 
-            $table->enum('status', ['pending', 'confirmed', 'declined'])
-                ->default('pending');
+            $table->string('status')->default('pending');
+            $table->string('payment_proof')->nullable();
 
             $table->timestamps();
         });

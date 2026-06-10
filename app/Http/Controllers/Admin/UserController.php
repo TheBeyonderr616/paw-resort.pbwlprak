@@ -15,13 +15,37 @@ class UserController extends Controller
         if ($request->filled('search')) {
             $s = $request->search;
             $query->where(function($q) use ($s) {
-                $q->where('name', 'ilike', "%$s%")
-                  ->orWhere('email', 'ilike', "%$s%");
+                $q->where('name', 'like', "%$s%")
+                  ->orWhere('email', 'like', "%$s%");
             });
         }
 
         $users = $query->paginate(10);
         return view('admin.user.index', compact('users'));
+    }
+
+    public function create()
+    {
+        return view('admin.user.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'role'     => 'required|in:user,admin',
+        ]);
+
+        User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => \Hash::make($request->password),
+            'role'     => $request->role,
+        ]);
+
+        return redirect()->route('admin.user.index')->with('success', 'User created successfully!');
     }
 
     public function edit($id)

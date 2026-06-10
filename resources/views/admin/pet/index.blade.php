@@ -117,6 +117,7 @@
                         <a href="{{ route('admin.user.edit', $pet->user->id) }}" class="owner-link">
                             {{ $pet->user->name }}
                         </a>
+                        <div style="font-size: 0.8rem; color: #888; font-weight: 600;">{{ $pet->user->email }}</div>
                     </td>
                     <td>
                         <form action="{{ route('admin.pet.destroy', $pet->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to remove this pet?')">

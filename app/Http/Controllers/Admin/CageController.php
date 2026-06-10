@@ -15,8 +15,8 @@ class CageController extends Controller
         if ($request->filled('search')) {
             $s = $request->search;
             $query->where(function($q) use ($s) {
-                $q->where('code', 'ilike', "%$s%")
-                  ->orWhere('name', 'ilike', "%$s%");
+                $q->where('code', 'like', "%$s%")
+                  ->orWhere('name', 'like', "%$s%");
             });
         }
 

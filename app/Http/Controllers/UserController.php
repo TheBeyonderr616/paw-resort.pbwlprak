@@ -105,8 +105,10 @@ class UserController extends Controller
         $booking = Booking::where('id', $id)->where('user_id', Auth::id())->firstOrFail();
 
         if ($request->hasFile('payment_proof')) {
-            $path = $request->file('payment_proof')->store('payments', 'public');
-            $booking->update(['payment_proof' => $path]);
+            $file = $request->file('payment_proof');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('payments'), $filename);
+            $booking->update(['payment_proof' => 'payments/' . $filename]);
         }
 
         return back()->with('success', 'Bukti pembayaran berhasil di-upload! Admin akan segera memverifikasi.');

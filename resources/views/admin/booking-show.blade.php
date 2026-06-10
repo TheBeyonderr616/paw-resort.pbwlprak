@@ -80,7 +80,7 @@
         <div class="info-section">
             <h3>💳 Payment Proof</h3>
             @if($booking->payment_proof)
-                <img src="{{ asset('storage/' . $booking->payment_proof) }}" alt="Payment Proof" class="payment-proof">
+                <img src="{{ asset($booking->payment_proof) }}" alt="Payment Proof" class="payment-proof">
             @else
                 <div class="info-value" style="color:#888;">No payment proof uploaded yet.</div>
             @endif
@@ -95,7 +95,7 @@
                 @csrf @method('PATCH')
                 <button type="submit" class="btn-paw">✅ Confirm Booking</button>
             </form>
-            <form action="{{ route('admin.payment.confirm', $booking->id) }}" method="POST">
+            <form action="{{ route('admin.payment.decline', $booking->id) }}" method="POST">
                 @csrf @method('PATCH')
                 <button type="submit" class="btn-danger-sm" style="padding:14px 30px;">❌ Decline</button>
             </form>

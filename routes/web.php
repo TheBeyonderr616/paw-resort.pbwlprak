@@ -56,6 +56,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // User CRUD
     Route::get('/user',         [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('user.index');
+    Route::get('/user/create',  [\App\Http\Controllers\Admin\UserController::class, 'create'])->name('user.create');
+    Route::post('/user',        [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('user.store');
     Route::get('/user/{id}/edit', [\App\Http\Controllers\Admin\UserController::class, 'edit'])->name('user.edit');
     Route::put('/user/{id}',    [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('user.destroy');

@@ -15,11 +15,11 @@ class PetController extends Controller
         if ($request->filled('search')) {
             $s = $request->search;
             $query->where(function($q) use ($s) {
-                $q->where('name', 'ilike', "%$s%")
-                  ->orWhere('breed', 'ilike', "%$s%")
-                  ->orWhereHas('user', function($uq) use ($s) {
-                      $uq->where('name', 'ilike', "%$s%");
-                  });
+                $q->where('name', 'like', "%$s%")
+                                    ->orWhere('breed', 'like', "%$s%")
+                                    ->orWhereHas('user', function($uq) use ($s) {
+                                        $uq->where('name', 'like', "%$s%");
+                                    });
             });
         }
 

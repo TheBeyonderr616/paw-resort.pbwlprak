@@ -89,10 +89,13 @@
 
     <div class="page-header">
         <h1 class="page-title">👥 Manage Users</h1>
-        <form action="{{ route('admin.user.index') }}" method="GET" style="display:flex; gap:10px;">
-            <input type="text" name="search" class="paw-input" placeholder="Search name or email..." value="{{ request('search') }}" style="width:250px; padding: 10px 15px;">
-            <button type="submit" class="btn-paw-sm">Search</button>
-        </form>
+        <div style="display:flex; gap:15px; align-items:center;">
+            <a href="{{ route('admin.user.create') }}" class="btn-paw-sm">➕ Create New User</a>
+            <form action="{{ route('admin.user.index') }}" method="GET" style="display:flex; gap:10px;">
+                <input type="text" name="search" class="paw-input" placeholder="Search name or email..." value="{{ request('search') }}" style="width:250px; padding: 10px 15px;">
+                <button type="submit" class="btn-paw-sm">Search</button>
+            </form>
+        </div>
     </div>
 
     @if(session('success'))
